@@ -8,11 +8,13 @@ const flash = require('connect-flash')
 const session = require('express-session')
 const passport = require('./config/passport')
 const routes = require('./routes')
+const handlebarsHelpers = require('./helpers/handlebars-helpers')
+const { getUser } = require('./helpers/auth-helpers')
 const app = express()
 const port = process.env.PORT || 3000
 const SESSION_SECRET = 'secret'
 
-app.engine('hbs', exphbs.engine({ extname: '.hbs', defaultLayout: "main" }))
+app.engine('hbs', exphbs.engine({ extname: '.hbs', helpers: handlebarsHelpers }))
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
@@ -25,6 +27,7 @@ app.use(flash())
 app.use((req, res, next) => {
   res.locals.success_messages = req.flash('success_messages')
   res.locals.error_messages = req.flash('error_messages')
+  res.locals.user = getUser(req)
   next()
 })
 
@@ -36,4 +39,4 @@ app.listen(port, () => {
 
 module.exports = app //測試環境用到
 
-// 登入頁>model>passport> google>seeder>首頁>user個人>user編輯>申請老師>老師個人>老師個人編輯>學生看老師>預約功能>評分功能>後台頁面>後台主頁
+// 登入頁>model>passport>local auth>google auth>seeder>首頁>user個人>user編輯>申請老師>老師個人>老師個人編輯>學生看老師>預約功能>評分功能>後台頁面>後台主頁
