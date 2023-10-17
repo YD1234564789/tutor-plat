@@ -1,16 +1,17 @@
 const bcrypt = require('bcryptjs')
 const { User } = require('../models')
 const userController = {
-  signinPage: (req, res, next) =>{
+  signInPage: (req, res) =>{
     res.render('signin')
   },
-  signin: (req, res, next) => {
-
+  signIn: (req, res) => {
+    req.flash('success_messages', '成功登入!')
+    res.redirect('/index')
   },
-  signupPage: (req, res, next) => {
+  signUpPage: (req, res) => {
     res.render('signup')
   },
-  signup: (req, res, next) => {
+  signUp: (req, res, next) => {
     if (req.body.password !== req.body.passwordCheck) throw new Error('Password do not match!')
     User.findOne({ where: { email: req.body.email }})
       .then(user => {
@@ -28,8 +29,10 @@ const userController = {
       })
       .catch(err => next(err))
   },
-  logout: (req, res, next) => {
-
+  logout: (req, res) => {
+    req.flash('success_messages', '登出成功!')
+    res.logout()
+    res.redirect('/signin')
   },
   getUser: (req, res, next) => {
 
