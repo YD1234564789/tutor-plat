@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 const express = require("express")
 const exphbs = require('express-handlebars');
 const methodOverride = require('method-override')
@@ -33,4 +36,4 @@ app.listen(port, () => {
 
 module.exports = app //測試環境用到
 
-// 登入頁>model> passport>google>seeder>首頁>user個人>user編輯>申請老師>老師個人>老師個人編輯>學生看老師>預約功能>評分功能>後台頁面>後台主頁
+// 登入頁>model>passport> google>seeder>首頁>user個人>user編輯>申請老師>老師個人>老師個人編輯>學生看老師>預約功能>評分功能>後台頁面>後台主頁
