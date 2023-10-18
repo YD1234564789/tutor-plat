@@ -8,7 +8,6 @@ const { authenticated } = require('../middleware/auth')
 const userController = require('../controllers/userController')
 const teacherController = require('../controllers/teacherController')
 const homeController = require('../controllers/homeController')
-const adminController = require('../controllers/adminController')
 
 router.use('/admin', admin)
 router.use('/auth', auth)
@@ -17,6 +16,8 @@ router.post('/signup', userController.signUp)
 router.get('/signIn', userController.signInPage)
 router.post('/signIn', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
 router.get('/logout', userController.logout)
+router.get('/users/:id', userController.getUser)
+router.get('/users/:id/edit', userController.getEdit)
 router.get('/home', authenticated, homeController.getHome)
 
 //都不符合路由時重新導向...

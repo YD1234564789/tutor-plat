@@ -17,6 +17,16 @@ const adminController = {
     })
       .then(users => res.render('admin/users', {users}))
       .catch(err => next(err))
+  },
+  getUser: (req, res, next) => {
+    User.findByPk(req.params.id, {
+      raw: true
+    })
+      .then(user => {
+        if (!user) throw new Error("User didn't exist!")
+        res.render('admin/user', { user })
+      })
+      .catch(err => next(err))
   }
 }
 

@@ -3,6 +3,7 @@ const router = express.Router()
 const { authenticatedAdmin } = require('../../middleware/auth')
 const adminController = require('../../controllers/adminController')
 
+router.get('/users/:id', adminController.getUser)
 router.get('/users', authenticatedAdmin, adminController.getUsers)
 router.get('/signin', adminController.signInPage)
 router.post('/signin', adminController.signIn)

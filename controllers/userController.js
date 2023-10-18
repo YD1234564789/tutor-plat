@@ -35,7 +35,14 @@ const userController = {
     res.redirect('/signin')
   },
   getUser: (req, res, next) => {
-
+    User.findByPk(req.params.id, {
+      raw: true
+    })
+      .then(user => {
+        if (!user) throw new Error("User didn't exist")
+        res.render('users/profile', { user })
+      })
+      .catch(err => next(err))
   },
   getEdit: (req, res, next) => {
 
