@@ -19,7 +19,7 @@ passport.use(new LocalStrategy(
         if(!user) return cb(null, false, req.flash('error_messages', '帳號或密碼輸入錯誤!'))
         bcrypt.compare(password, user.password).then(res => {
         if (!res) return cb(null, false, req.flash('error_messages', '帳號或密碼輸入錯誤!'))
-        return cb(null, user.toJSON())
+        return cb(null, user)
         })
       })
   }
@@ -44,7 +44,7 @@ passport.use(new GoogleStrategy({
             email,
             password: hash
           }))
-          .then(user => cb(null, user.toJSON()))
+          .then(user => cb(null, user))
           .catch(err => cb(err, false))
       })
   }
@@ -55,7 +55,7 @@ passport.serializeUser((user, cb) => {
 })
 passport.deserializeUser((id, cb) => {
   User.findByPk(id).then(user => {
-    return cb(null, user)
+    return cb(null, user.toJSON())
   })
 })
 

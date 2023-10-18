@@ -6,7 +6,8 @@ const userController = {
   },
   signIn: (req, res) => {
     req.flash('success_messages', '成功登入!')
-    res.redirect('/index')
+    res.redirect('/home')
+    console.log(req.user)
   },
   signUpPage: (req, res) => {
     res.render('signup')
@@ -31,7 +32,7 @@ const userController = {
   },
   logout: (req, res) => {
     req.flash('success_messages', '登出成功!')
-    res.logout()
+    res.logout
     res.redirect('/signin')
   },
   getUser: (req, res, next) => {
