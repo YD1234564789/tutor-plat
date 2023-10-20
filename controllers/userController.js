@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs')
+const { localFileHandler } = require('../helpers/file-helper')
 const { User } = require('../models')
 const userController = {
   signInPage: (req, res) =>{
@@ -35,20 +36,47 @@ const userController = {
     res.redirect('/signin')
   },
   getUser: (req, res, next) => {
-    User.findByPk(req.params.id, {
+    return User.findByPk(req.params.id, {
       raw: true
     })
       .then(user => {
-        if (!user) throw new Error("User didn't exist")
-        res.render('users/profile', { user })
+        if (!user) {throw new Error("User didn't exist~")}
+        return res.render('users/profile', { user })
       })
       .catch(err => next(err))
   },
   getEdit: (req, res, next) => {
-
+    User.findByPk(req.params.id, {
+      raw: true
+    })
+      .then(user => {
+        if (!user) throw new Error("User didn't exist!")
+        res.render('users/edit', { user })
+      })
+      .catch(err => next(err))
   },
   putUser: (req, res, next) => {
-
+    const { name, country, description } = req.body
+    if (!name) throw new Error('User name is required!')
+    const { file } = req
+    Promise.all([
+      User.findByPk(req.params.id),
+      localFileHandler(file)
+    ])
+      .then(([user, filePath]) => {
+        if (!user) throw new Error("User didn't exist!")
+        return user.update({
+          name,
+          country,
+          avatar: filePath || user.avatar,
+          description
+        })
+      })
+      .then(() => {
+        req.flash('success_messages', '使用者資料編輯成功')
+        res.redirect(`/users/${req.params.id}`)
+      })
+      .catch(err => next(err))
   }
 }
 

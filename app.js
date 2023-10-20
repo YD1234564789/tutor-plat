@@ -6,6 +6,7 @@ const exphbs = require('express-handlebars');
 const methodOverride = require('method-override')
 const flash = require('connect-flash')
 const session = require('express-session')
+const path = require('path')
 const passport = require('./config/passport')
 const routes = require('./routes')
 const handlebarsHelpers = require('./helpers/handlebars-helpers')
@@ -18,6 +19,8 @@ app.engine('hbs', exphbs.engine({ extname: '.hbs', helpers: handlebarsHelpers })
 app.set('view engine', 'hbs')
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
+// 對upload路由 啟用upload資料夾
+app.use('/upload', express.static(path.join(__dirname, 'upload')))
 app.use(session({ secret: SESSION_SECRET, resave: false, saveUninitialized: false }))
 app.use(passport.initialize())
 // 要在session後啟用

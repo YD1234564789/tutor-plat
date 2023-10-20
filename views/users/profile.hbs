@@ -1,63 +1,43 @@
-<div class="d-flex ">
-{{!-- 基本資料 --}}
-  <div class="card" style="width: 18rem;">
-    <img src="..." class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">Card title</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.
-      </p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
+<div class="row">
+  <div class="col-md-4">
+    <img class="img-responsive center-block" src="{{user.avatar}}"
+      style="width: 250px; margin-bottom: 25px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
+    <br>
+    <h2>{{user.name}}</h2>
+    <div>
+      <h5>關於我</h5>
+      <p>{{user.description}}</p>
+    </div>
+    <p><a class="btn btn-outline-secondary" href="/users/{{user.id}}/edit">edit</a></p>
+  </div>
+
+  <div class="col-md-8">
+    <div class="well">
+      <ul class="list-unstyled">
+        <li><strong>{{user.name}}</strong></li>
+        <li>{{user.email}}</li>
+      </ul>
+      {{!-- {{#ifCond user.id currentUser.id}} --}}
+      <p><a class="btn btn-outline-secondary" href="/users/{{user.id}}/edit">edit</a></p>
+      {{!-- {{/ifCond}} --}}
     </div>
   </div>
-  {{!-- 已評課程 --}}
-  <div class="row">
-    <span>已評論課程</span>
-    <div class="col-sm-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
+  <div>
+    {{!-- <h3>{{user.Comments.length}} 已評論餐廳</h3>
+    {{#if user.Comments}}
+    {{#each user.Comments}}
+    <div class="card d-inline-flex mr-2" style="width: 10rem;">
+      <a href="/restaurants/{{this.Restaurant.id}}">
+        <img src="{{this.Restaurant.image}}" class="card-img-top">
+      </a>
     </div>
-    <div class="col-sm-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
+    {{/each}}
+    {{else}}
+    <p><strong>尚未評論餐廳</strong></p>
+    {{/if}} --}}
   </div>
-  
-  
-  {{!-- <div class="card">
-    <div class="card-header">
-      {{#if user.Comments.length}}
-      {{user.Comments.length}}
-      {{else}} 0
-      {{/if}}
-      已評論餐廳
-    </div>
-    <div class="row row-cols-5 g-1">
-      {{#each user.Comments}}
-      <div class="col">
-        <div class="card h-100">
-          <a href="/restaurants/{{this.Restaurant.id}}">
-            <img src="{{this.Restaurant.image}}" class="card-img-top">
-          </a>
-          <div class="card-body">
-            <a href="/restaurants/{{this.Restaurant.id}}">
-              <h5 class="card-title">{{this.Restaurant.name}}</h5>
-            </a>
-            <p class="card-text">{{this.text}}</p>
-            <p class="card-text"><small class="text-muted">{{relativeTimeFromNow this.createdAt}}</small></p>
-          </div>
-        </div>
-      </div>
-      {{/each}}
-    </div>
-  </div> --}}
 </div>
+<hr>
+
+
+<a class="btn btn-outline-secondary mt-2" href="javascript:history.back()">Back</a>
