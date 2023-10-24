@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const Teacher_info = sequelize.define('Teacher_info', {
     method: DataTypes.STRING,
     classLink: DataTypes.STRING,
-    date: DataTypes.DATE,
+    date: DataTypes.STRING,
     startTime: DataTypes.STRING,
     endTime: DataTypes.STRING,
     duration: DataTypes.STRING
@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     underscored: true,
   });
   Teacher_info.associate = function(models) {
-    // associations can be defined here
+    Teacher_info.belongsTo(models.User, { foreignKey: 'userId' })
   };
   return Teacher_info;
 };
