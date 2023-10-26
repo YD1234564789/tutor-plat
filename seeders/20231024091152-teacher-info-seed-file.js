@@ -8,8 +8,8 @@ module.exports = {
       where: {
         id: {
           [Sequelize.Op.and]: [
-            { [Sequelize.Op.gt]: 73 },
-            { [Sequelize.Op.lt]: 99 }
+            { [Sequelize.Op.gt]: 72 },
+            { [Sequelize.Op.lt]: 100 }
           ]
         }
       }
@@ -20,10 +20,10 @@ module.exports = {
     const teacherInfoData = users.map(user => {
       const method = faker.helpers.arrayElement(['Online','In-Person'])
       const class_link = faker.internet.url()
-      const date = JSON.stringify(faker.helpers.arrayElements(['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']))
-      const start_time = faker.helpers.arrayElement(['18', '19', '20'])
-      const end_time = faker.helpers.arrayElement(['21', '22'])
-      const duration = faker.helpers.arrayElement(['30', '60'])
+      const date = [JSON.stringify(faker.helpers.arrayElements(['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']))]
+      const start_time = parseInt(faker.helpers.arrayElement([18, 19, 20]))
+      const end_time = parseInt(faker.helpers.arrayElement([21, 22]))
+      const duration = parseInt(faker.helpers.arrayElement([30, 60]))
       return {
         method,
         class_link,

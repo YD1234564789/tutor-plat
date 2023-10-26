@@ -1,10 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Couse = sequelize.define('Couse', {
-    startTime: DataTypes.STRING,
-    endTime: DataTypes.STRING,
+    startTime: DataTypes.INTEGER,
+    endTime: DataTypes.INTEGER,
     date: DataTypes.DATE,
-    rate: DataTypes.STRING,
+    rate: DataTypes.INTEGER,
     isDone: DataTypes.BOOLEAN,
     message: DataTypes.TEXT
   }, {
