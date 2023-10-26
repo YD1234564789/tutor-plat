@@ -14,17 +14,17 @@ module.exports = {
       class_link: {
         type: Sequelize.STRING
       },
-      date: {
-        type: Sequelize.DATE
+      week_day: {
+        type: Sequelize.STRING
       },
       start_time: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       end_time: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       duration: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       created_at: {
         allowNull: false,

@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const Teacher_info = sequelize.define('Teacher_info', {
     method: DataTypes.STRING,
     classLink: DataTypes.STRING,
-    date: DataTypes.STRING,
+    weekDay: DataTypes.STRING,
     startTime: DataTypes.INTEGER,
     endTime: DataTypes.INTEGER,
     duration: DataTypes.INTEGER

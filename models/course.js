@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Couse = sequelize.define('Couse', {
+  const Couse = sequelize.define('Course', {
     startTime: DataTypes.INTEGER,
     endTime: DataTypes.INTEGER,
     date: DataTypes.DATE,
