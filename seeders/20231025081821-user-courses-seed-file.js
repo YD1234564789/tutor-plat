@@ -1,18 +1,21 @@
 'use strict';
-const { Teacher_info } = require('../models')
+const { Teacher_info, User } = require('../models')
 const { faker } = require('@faker-js/faker')
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-
+    // 預設UserId後5位為學生
+    const users = await User.findAll({
+      order: [['id', 'DESC']],
+      limit: 5,
+      raw: true
+    })
     // 查詢所有的教師資訊
     const teacherInfos = await Teacher_info.findAll();
-
-    const userIds = [68, 69, 70, 71, 72, 73]
     const coursesPerUser = 2
     const getRandomNum = (min, max) => Math.floor(Math.random() * (max - min +1)) + min
 
     // 1.學生 已完成 未評分 各2個
-      for (const userID of userIds) {
+    for (const user of users) {
         for (let i = 0; i< coursesPerUser; i++) {
           // 隨機選擇一個教師資訊
           const randomTeacherInfo = teacherInfos[Math.floor(Math.random() * teacherInfos.length)]
@@ -23,11 +26,11 @@ module.exports = {
           // 計算可安排課程數
           const { startTime, endTime, duration } = randomTeacherInfo
           const durationToHour = duration / 60
-          const numCourses = (endTime-startTime)/durationToHour
+          const numCourses = (endTime - startTime) / durationToHour
           // 隨機選擇開始時段
           const randomStartTime = Math.floor(Math.random() * numCourses)+ startTime
           const randomEndTime = randomStartTime + durationToHour
-
+  
           // 生成 course 資料
           await queryInterface.bulkInsert('Courses', [
             {
@@ -36,21 +39,21 @@ module.exports = {
               date: randomDate,
               rate: null,
               is_done: true,
-              user_id: userID,
+              user_id: user.id,
               teacher_info_id: randomTeacherInfo.id,
               created_at: new Date(),
               updated_at: new Date()
             }
           ])
-
         }
-      }
+    }
+      
 
     // 2.老師 已完成 已評分 各2個
     for (const teacher of teacherInfos) {
       for (let i = 0; i < coursesPerUser; i++) {
         // 隨機userID
-        const randomUserId = userIds[Math.floor(Math.random() * userIds.length)]
+        const randomUser = users[Math.floor(Math.random() * users.length)]
         // 隨機選擇過去日期
         const mm = getRandomNum(0, 9)
         const dd = getRandomNum(0, 30)
@@ -63,7 +66,7 @@ module.exports = {
         const randomStartTime = Math.floor(Math.random() * numCourses) + startTime
         const randomEndTime = randomStartTime + durationToHour
 
-        // 生成 course 資料
+        //生成 course 資料
         await queryInterface.bulkInsert('Courses', [
           {
             start_time: randomStartTime,
@@ -72,7 +75,7 @@ module.exports = {
             rate: Math.round(Math.random() * 5 * 10) / 10,
             is_done: true,
             message: faker.lorem.sentence({ min:3, max: 7 }),
-            user_id: randomUserId,
+            user_id: randomUser.id,
             teacher_info_id: teacher.id,
             created_at: new Date(),
             updated_at: new Date()
@@ -85,7 +88,7 @@ module.exports = {
     for (const teacher of teacherInfos) {
       for (let i = 0; i < coursesPerUser; i++) {
         // 隨機userID
-        const randomUserId = userIds[Math.floor(Math.random() * userIds.length)]
+        const randomUser = users[Math.floor(Math.random() * users.length)]
         // 隨機選擇未來日期
         const mm = getRandomNum(11, 12)
         const dd = getRandomNum(0, 30)
@@ -106,7 +109,7 @@ module.exports = {
             date: randomDate,
             rate: null,
             is_done: false,
-            user_id: randomUserId,
+            user_id: randomUser.id,
             teacher_info_id: teacher.id,
             created_at: new Date(),
             updated_at: new Date()

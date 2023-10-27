@@ -3,18 +3,11 @@ const { faker } = require('@faker-js/faker')
 const { User } = require('../models')
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    // 先撈出 99>id>73 的user作為老師
     const users = await User.findAll({
-      where: {
-        id: {
-          [Sequelize.Op.and]: [
-            { [Sequelize.Op.gt]: 72 },
-            { [Sequelize.Op.lt]: 100 }
-          ]
-        }
-      }
-    },
-    { raw: true })
+      order: [['id', 'ASC']],
+      limit: 27,
+      raw: true
+    })
 
     // 決定teacherInfo的資料
     const teacherInfoData = users.map(user => {
@@ -27,7 +20,7 @@ module.exports = {
       return {
         method,
         class_link,
-        date,
+        week_day: date,
         start_time,
         end_time,
         duration,
@@ -41,6 +34,4 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete('Teacher_infos', {})
   }
-};
-
-// id73~99
+}

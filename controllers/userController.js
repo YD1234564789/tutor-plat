@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
-const { localFileHandler } = require('../helpers/file-helper')
+const { imgurFileHandler } = require('../helpers/file-helper')
 const { User } = require('../models')
+
 const userController = {
   signInPage: (req, res) =>{
     res.render('signin')
@@ -61,15 +62,15 @@ const userController = {
     const { file } = req
     Promise.all([
       User.findByPk(req.params.id),
-      localFileHandler(file)
+      imgurFileHandler(file)
     ])
       .then(([user, filePath]) => {
         if (!user) throw new Error("User didn't exist!")
         return user.update({
           name,
           country,
-          avatar: filePath || user.avatar,
-          description
+          description,
+          avatar: filePath || user.avatar
         })
       })
       .then(() => {

@@ -8,9 +8,6 @@ const adminController = {
     req.flash('success_messages', 'Admin成功登入!')
     res.redirect('/admin/users')
   },
-  logout: (req, res, next) => {
-
-  },
   getUsers: (req, res, next) => {
     User.findAll({
       raw: true

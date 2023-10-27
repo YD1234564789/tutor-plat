@@ -10,7 +10,7 @@ module.exports = {
           email: `user${i}@example.com`,
           password: hashPassword,
           description: faker.person.bio(),
-          avatar: `https://loremflickr.com/320/240/restaurant,food/?lock=${Math.random() * 100}`,
+          avatar: `https://loremflickr.com/320/240/teacher,adult/?lock=${Math.random() * 100}`,
           total_learning_time: '0',
           is_admin: false,
           country: faker.location.countryCode(),
