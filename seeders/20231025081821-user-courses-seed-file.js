@@ -1,5 +1,6 @@
 'use strict';
 const { Teacher_info } = require('../models')
+const { faker } = require('@faker-js/faker')
 module.exports = {
   up: async (queryInterface, Sequelize) => {
 
@@ -68,8 +69,9 @@ module.exports = {
             start_time: randomStartTime,
             end_time: randomEndTime,
             date: randomDate,
-            rate: Math.round(Math.random() * 5 * 10) / 10,//////
+            rate: Math.round(Math.random() * 5 * 10) / 10,
             is_done: true,
+            message: faker.lorem.sentence({ min:3, max: 7 }),
             user_id: randomUserId,
             teacher_info_id: teacher.id,
             created_at: new Date(),
