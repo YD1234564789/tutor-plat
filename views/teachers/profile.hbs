@@ -1,21 +1,21 @@
 <div class="row">
   <div class="col-md-4">
-    <img class="img-responsive center-block" src="{{user.avatar}}"
+    <img class="img-responsive center-block" src="{{teacher.User.avatar}}"
       style="width: 250px; margin-bottom: 25px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
     <br>
-    <h2>{{user.name}}</h2>
+    <h2>{{teacher.User.name}}</h2>
     <div>
       <h5>關於我</h5>
-      <p>{{user.description}}</p>
+      <p>{{teacher.User.description}}</p>
     </div>
-    <p><a class="btn btn-outline-secondary" href="/users/{{user.id}}/edit">edit</a></p>
+    <p><a class="btn btn-outline-secondary" href="/teachers/{{teacher.id}}/edit">edit</a></p>
   </div>
 
   <div class="col-md-8">
     <div class="well">
       <ul class="list-unstyled">
-        <li><strong>{{user.name}}</strong></li>
-        <li>{{user.email}}</li>
+        <li><strong>{{teacher.User.name}}</strong></li>
+        <li>{{teacher.User.email}}</li>
       </ul>
       {{!-- {{#ifCond user.id currentUser.id}} --}}
       <p><a class="btn btn-outline-secondary" href="/users/{{user.id}}/edit">edit</a></p>

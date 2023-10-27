@@ -21,6 +21,7 @@ router.get('/users/:id/edit', userController.getEdit)
 router.get('/users/:id', userController.getUser)
 // 設定上傳單張圖片avatar對應input name
 router.put('/users/:id', upload.single('avatar'),userController.putUser)
+router.get('/teachers/:id', teacherController.getTeacher)
 router.get('/home', authenticated, homeController.getHome)
 
 //都不符合路由時重新導向...
