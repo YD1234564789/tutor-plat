@@ -1,0 +1,51 @@
+<form action="/teachers/{{teacher.id}}/?_method=PUT" method="POST" enctype="multipart/form-data">
+  <div class="form-row mb-3">
+    <label class="form-label" for="name">Name</label>
+    <input class="form-control" type="text" name="name" id="name" placeholder="Enter name" value="{{teacher.User.name}}"
+      required>
+  </div>
+
+  <div class="form-row mb-3">
+    <label class="form-label" for="country">Country</label>
+    <input class="form-control" type="text" name="country" id="country" placeholder="Enter country"
+      value="{{teacher.User.country}}">
+  </div>
+
+  <div class="form-row mb-3">
+    <label class="form-label" for="method">Method</label>
+    <textarea class="form-control" id="method" name="method" rows="3">{{teacher.method}}</textarea>
+  </div>
+
+  <div class="form-row mb-3">
+    <label class="form-label" for="weekDay">WeekDay</label>
+    <textarea class="form-control" id="weekDay" name="weekDay" rows="3">{{teacher.weekDay}}</textarea>
+  </div>
+
+  <div class="form-row mb-3">
+    <label class="form-label" for="startTime">StartTime</label>
+    <textarea class="form-control" id="startTime" name="startTime" rows="3">{{teacher.startTime}}</textarea>
+  </div>
+
+  <div class="form-row mb-3">
+    <label class="form-label" for="endTime">EndTime</label>
+    <textarea class="form-control" id="endTime" name="endTime" rows="3">{{teacher.endTime}}</textarea>
+  </div>
+  
+  <div class="form-row mb-3">
+    <label class="form-label" for="duration">Duration</label>
+    <textarea class="form-control" id="duration" name="duration" rows="3">{{teacher.duration}}</textarea>
+  </div>
+
+  <div class="form-row mb-3">
+    <label class="form-label" for="description">Description</label>
+    <textarea class="form-control" id="description" name="description" rows="3">{{teacher.User.description}}</textarea>
+  </div>
+
+  <div class="form-row mb-3">
+    <label class="form-label" for="avatar">Avatar</label>
+    <input class="form-control" type="file" class="form-control-file" id="avatar" name="avatar">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+  <a class="btn btn-outline-secondary" href="javascript:history.back()">Back</a>
+</form>

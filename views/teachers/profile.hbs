@@ -13,6 +13,7 @@
       <div><strong>ClassLink：</strong>{{teacher.classLink}}</div>
       <div><strong>Description：</strong>{{teacher.User.description}}</div>
     </div>
+    <p><a class="btn btn-outline-secondary" href="/teachers/{{teacher.id}}/edit">edit</a></p>
   </div>
   
   <div class="col-md-8">
@@ -40,7 +41,6 @@
               <div class="card-body">
                 <p><strong>StartTime: </strong>{{this.startTime}}</p>
                 <p><strong>EndTime: </strong>{{this.endTime}}</p>
-                <p><strong>User: </strong>{{this.userId}}</p>
                 <i class="fas fa-star fa-lg" style="color: #ffff00;"></i>{{this.rate}}
                 <p><strong>Message: </strong>{{this.message}}</p>
               </div>

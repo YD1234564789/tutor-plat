@@ -11,13 +11,14 @@ const teacherController = {
       Teacher_info.findByPk(req.params.id, {
         include: User,
         nest: true,
-        raw: true
+        raw: true,
       }),
       Course.findAll({
         where: {
           teacherInfoId: req.params.id
         },
-        raw:true})
+        raw:true,
+      })
     ])
       .then(([teacher, courses]) => {
         if (!teacher) throw new Error("Teacher diidn't exist!")
@@ -39,7 +40,16 @@ const teacherController = {
       .catch(err => next(err))
   },
   editPage: (req, res, next) => {
-
+    Teacher_info.findByPk(req.params.id, {
+      include: User,
+      nest: true,
+      raw: true
+    })
+      .then(teacher => {
+        if (!teacher) throw new Error("teacher didn't exist!")
+        res.render('teachers/edit', { teacher })
+      })
+      .catch(err => next(err))
   },
   putTeacher: (req, res, next) => {
 

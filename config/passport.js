@@ -2,7 +2,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const GoogleStrategy = require('passport-google-oauth20')
 const bcrypt = require('bcryptjs')
-const { User } = require('../models')
+const { User, Teacher_info } = require('../models')
 
 // set up passport strategy
 passport.use(new LocalStrategy(
@@ -54,7 +54,9 @@ passport.serializeUser((user, cb) => {
   cb(null, user.id)
 })
 passport.deserializeUser((id, cb) => {
-  User.findByPk(id).then(user => {
+  User.findByPk(id, {
+    include: Teacher_info
+  }).then(user => {
     return cb(null, user.toJSON())
   })
 })
