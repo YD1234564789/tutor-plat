@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     description: DataTypes.TEXT,
     avatar: DataTypes.STRING,
-    totalLearningTime: DataTypes.INTEGER,
+    totalLearningTime: DataTypes.FLOAT,
     isAdmin: DataTypes.BOOLEAN,
     country: DataTypes.STRING
   }, {
@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   User.associate = function(models) {
     User.hasOne(models.Teacher_info, { foreignKey: 'userId' })
+    User.hasMany(models.Course, { foreignKey: 'userId'})
   };
   return User;
 };

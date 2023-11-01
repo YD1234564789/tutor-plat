@@ -1,27 +1,55 @@
+
 <div class="row">
+
   <div class="col-md-4">
-    <img class="img-responsive center-block" src="{{teacher.User.avatar}}"
+    <img class="img-fluid mx-auto" src="{{teacher.User.avatar}}"
       style="width: 250px; margin-bottom: 25px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
     <br>
-    <h2>{{teacher.User.name}}</h2>
     <div>
-      <h5>關於我</h5>
-      <p>{{teacher.User.description}}</p>
+      <span class="fi fi-{{teacher.User.country}}"></span>
+      <h5>{{teacher.User.name}}</h5>
+      <div><strong>Email：</strong>{{teacher.User.email}}</div>
+      <div><strong>Method：</strong>{{teacher.method}}</div>
+      <div><strong>ClassLink：</strong>{{teacher.classLink}}</div>
+      <div><strong>Description：</strong>{{teacher.User.description}}</div>
     </div>
-    <p><a class="btn btn-outline-secondary" href="/teachers/{{teacher.id}}/edit">edit</a></p>
+  </div>
+  
+  <div class="col-md-8">
+    <h5>New Courses</h5>
+    <div class="row">
+      {{#each courses}}
+        {{#unless this.isDone}}
+            <div class="card m-1" style="width: 22rem">
+              <div class="card-body">
+                <p><strong>StartTime: </strong>{{this.startTime}}</p>
+                <p><strong>EndTime: </strong>{{this.endTime}}</p>
+                <p><strong>User: </strong>{{this.userId}}</p>
+              </div>
+            </div>
+        {{/unless}}
+      {{/each}}
+    </div>
+    <hr>
+
+    <h5>History Courses</h5>
+    <div class="row">
+      {{#each courses}}
+        {{#if this.isDone}}
+            <div class="card m-1" style="width: 22rem">
+              <div class="card-body">
+                <p><strong>StartTime: </strong>{{this.startTime}}</p>
+                <p><strong>EndTime: </strong>{{this.endTime}}</p>
+                <p><strong>User: </strong>{{this.userId}}</p>
+                <i class="fas fa-star fa-lg" style="color: #ffff00;"></i>{{this.rate}}
+                <p><strong>Message: </strong>{{this.message}}</p>
+              </div>
+            </div>
+        {{/if}}
+      {{/each}}
+    </div>
   </div>
 
-  <div class="col-md-8">
-    <div class="well">
-      <ul class="list-unstyled">
-        <li><strong>{{teacher.User.name}}</strong></li>
-        <li>{{teacher.User.email}}</li>
-      </ul>
-      {{!-- {{#ifCond user.id currentUser.id}} --}}
-      <p><a class="btn btn-outline-secondary" href="/users/{{user.id}}/edit">edit</a></p>
-      {{!-- {{/ifCond}} --}}
-    </div>
-  </div>
 </div>
 <hr>
 

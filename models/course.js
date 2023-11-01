@@ -1,17 +1,22 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Couse = sequelize.define('Course', {
-    startTime: DataTypes.INTEGER,
-    endTime: DataTypes.INTEGER,
+  const Course = sequelize.define('Course', {
+    startTime: DataTypes.FLOAT,
+    endTime: DataTypes.FLOAT,
     date: DataTypes.DATE,
-    rate: DataTypes.INTEGER,
+    rate: DataTypes.FLOAT,
     isDone: DataTypes.BOOLEAN,
     message: DataTypes.TEXT
   }, {
     underscored: true,
   });
-  Couse.associate = function(models) {
-    // associations can be defined here
+  Course.associate = function(models) {
+    Course.belongsTo(models.User, {
+      foreignKey: 'userId'
+    })
+    Course.belongsTo(models.Teacher_info, {
+      foreignKey: 'teacherInfoId'
+    })
   };
-  return Couse;
+  return Course;
 };

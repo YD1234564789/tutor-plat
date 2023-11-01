@@ -4,14 +4,18 @@ module.exports = (sequelize, DataTypes) => {
     method: DataTypes.STRING,
     classLink: DataTypes.STRING,
     weekDay: DataTypes.STRING,
-    startTime: DataTypes.INTEGER,
-    endTime: DataTypes.INTEGER,
-    duration: DataTypes.INTEGER
+    startTime: DataTypes.FLOAT,
+    endTime: DataTypes.FLOAT,
+    duration: DataTypes.FLOAT
   }, {
     underscored: true,
   });
   Teacher_info.associate = function(models) {
-    Teacher_info.belongsTo(models.User, { foreignKey: 'userId' })
+    Teacher_info.belongsTo(models.User, {
+      foreignKey: 'userId' })
+    Teacher_info.hasMany(models.Course, {
+      foreignKey: 'teacherInfoId'
+    })
   };
   return Teacher_info;
 };

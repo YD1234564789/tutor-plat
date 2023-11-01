@@ -10,7 +10,7 @@ module.exports = {
       avatar: 'https://loremflickr.com/320/240/admin/?lock=120',
       total_learning_time: '0',
       is_admin: true,
-      country: 'TW',
+      country: 'tw',
       created_at: new Date(),
       updated_at: new Date()
     }])

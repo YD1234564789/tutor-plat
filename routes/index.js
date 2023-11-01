@@ -17,11 +17,11 @@ router.post('/signup', userController.signUp)
 router.get('/signIn', userController.signInPage)
 router.post('/signIn', passport.authenticate('local', { failureRedirect: '/signin', failureFlash: true }), userController.signIn)
 router.get('/logout', userController.logout)
-router.get('/users/:id/edit', userController.getEdit)
-router.get('/users/:id', userController.getUser)
+router.get('/users/:id/edit', authenticated, userController.getEdit)
+router.get('/users/:id', authenticated,userController.getUser)
 // 設定上傳單張圖片avatar對應input name
 router.put('/users/:id', upload.single('avatar'),userController.putUser)
-router.get('/teachers/:id', teacherController.getTeacher)
+router.get('/teachers/:id', authenticated, teacherController.getTeacher)
 router.get('/home', authenticated, homeController.getHome)
 
 //都不符合路由時重新導向...

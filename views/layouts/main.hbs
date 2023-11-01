@@ -6,13 +6,15 @@
   <title>家教媒合平台</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@6.11.0/css/flag-icons.min.css" />
+<script src="https://kit.fontawesome.com/391b09ed9d.js" crossorigin="anonymous"></script>
 </head>
 <body class="d-flex flex-column h-100 bg-light">
 {{> header}}
   <main role="main" class="flex-shrink-0">
-    <div class="container">
-      <div class="album bg-light pt-5">
-        <div class="pt-5">
+    <div class="album bg-light pt-5">
+      <div class="pt-5">
+        <div class="container">
           {{> messages}}
           {{{body}}}
         </div>

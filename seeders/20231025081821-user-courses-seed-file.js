@@ -21,14 +21,15 @@ module.exports = {
           const randomTeacherInfo = teacherInfos[Math.floor(Math.random() * teacherInfos.length)]
           // 隨機選擇過去日期
           const mm = getRandomNum(0, 9)
-          const dd = getRandomNum(0, 30)
+          const dd = getRandomNum(1, 30)
           const randomDate = new Date(2023, mm, dd)
+          const date = randomDate.toISOString().split('T')[0]
           // 計算可安排課程數
           const { startTime, endTime, duration } = randomTeacherInfo
           const durationToHour = duration / 60
           const numCourses = (endTime - startTime) / durationToHour
           // 隨機選擇開始時段
-          const randomStartTime = Math.floor(Math.random() * numCourses)+ startTime
+          const randomStartTime = Math.floor(Math.random() * numCourses) * durationToHour + startTime
           const randomEndTime = randomStartTime + durationToHour
   
           // 生成 course 資料
@@ -36,7 +37,7 @@ module.exports = {
             {
               start_time: randomStartTime,
               end_time: randomEndTime,
-              date: randomDate,
+              date,
               rate: null,
               is_done: true,
               user_id: user.id,
@@ -56,14 +57,15 @@ module.exports = {
         const randomUser = users[Math.floor(Math.random() * users.length)]
         // 隨機選擇過去日期
         const mm = getRandomNum(0, 9)
-        const dd = getRandomNum(0, 30)
+        const dd = getRandomNum(1, 30)
         const randomDate = new Date(2023, mm, dd)
+        const date = randomDate.toISOString().split('T')[0]
         // 計算可安排課程數
         const { startTime, endTime, duration } = teacher
         const durationToHour = duration / 60
         const numCourses = (endTime - startTime) / durationToHour
         // 隨機開始、結束時段
-        const randomStartTime = Math.floor(Math.random() * numCourses) + startTime
+        const randomStartTime = Math.floor(Math.random() * numCourses) * durationToHour + startTime
         const randomEndTime = randomStartTime + durationToHour
 
         //生成 course 資料
@@ -71,7 +73,7 @@ module.exports = {
           {
             start_time: randomStartTime,
             end_time: randomEndTime,
-            date: randomDate,
+            date,
             rate: Math.round(Math.random() * 5 * 10) / 10,
             is_done: true,
             message: faker.lorem.sentence({ min:3, max: 7 }),
@@ -90,15 +92,16 @@ module.exports = {
         // 隨機userID
         const randomUser = users[Math.floor(Math.random() * users.length)]
         // 隨機選擇未來日期
-        const mm = getRandomNum(11, 12)
-        const dd = getRandomNum(0, 30)
+        const mm = getRandomNum(10, 11)
+        const dd = getRandomNum(1, 30)
         const randomDate = new Date(2023, mm, dd)
+        const date = randomDate.toISOString().split('T')[0]
         // 計算可安排課程數
         const { startTime, endTime, duration } = teacher
         const durationToHour = duration / 60
         const numCourses = (endTime - startTime) / durationToHour
         // 隨機開始、結束時段
-        const randomStartTime = Math.floor(Math.random() * numCourses) + startTime
+        const randomStartTime = Math.floor(Math.random() * numCourses) * durationToHour + startTime
         const randomEndTime = randomStartTime + durationToHour
 
         // 生成 course 資料
@@ -106,7 +109,7 @@ module.exports = {
           {
             start_time: randomStartTime,
             end_time: randomEndTime,
-            date: randomDate,
+            date,
             rate: null,
             is_done: false,
             user_id: randomUser.id,
