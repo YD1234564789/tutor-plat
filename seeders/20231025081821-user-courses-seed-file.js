@@ -1,6 +1,9 @@
 'use strict';
 const { Teacher_info, User } = require('../models')
 const { faker } = require('@faker-js/faker')
+const dayjs = require('dayjs')
+const customParseFormat = require('dayjs/plugin/customParseFormat')
+dayjs.extend(customParseFormat)
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     // 預設UserId後5位為學生
@@ -13,6 +16,11 @@ module.exports = {
     const teacherInfos = await Teacher_info.findAll();
     const coursesPerUser = 2
     const getRandomNum = (min, max) => Math.floor(Math.random() * (max - min +1)) + min
+    const toMinutes = (dateString) => {
+      let [hour, minutes, second] = dateString.split(":").map(Number)
+      let total = hour * 60 + minutes
+      return total
+    }
 
     // 1.學生 已完成 未評分 各2個
     for (const user of users) {
@@ -24,19 +32,21 @@ module.exports = {
           const dd = getRandomNum(1, 30)
           const randomDate = new Date(2023, mm, dd)
           const date = randomDate.toISOString().split('T')[0]
-          // 計算可安排課程數
-          const { startTime, endTime, duration } = randomTeacherInfo
-          const durationToHour = duration / 60
-          const numCourses = (endTime - startTime) / durationToHour
+          // 時間字串轉物件並計算可安排課程數
+          const startTime = dayjs(randomTeacherInfo.startTime, "HH:mm:ss")
+          const endTime = dayjs(randomTeacherInfo.endTime, "HH:mm:ss")
+          const duration = toMinutes(randomTeacherInfo.duration)
+          const numCourses = endTime.diff(startTime, 'minute') / duration
+
           // 隨機選擇開始時段
-          const randomStartTime = Math.floor(Math.random() * numCourses) * durationToHour + startTime
-          const randomEndTime = randomStartTime + durationToHour
-  
-          // 生成 course 資料
+          const randomStartTime = startTime.add(Math.floor(Math.random() * numCourses) * duration, "minute")
+          const randomEndTime = randomStartTime.add(duration, "minute")
+
+          // 生成 course 資料，時間轉回字串
           await queryInterface.bulkInsert('Courses', [
             {
-              start_time: randomStartTime,
-              end_time: randomEndTime,
+              start_time: randomStartTime.format("HH:mm"),
+              end_time: randomEndTime.format("HH:mm"),
               date,
               rate: null,
               is_done: true,
@@ -50,7 +60,7 @@ module.exports = {
     }
       
 
-    // 2.老師 已完成 已評分 各2個
+    // // 2.老師 已完成 已評分 各2個
     for (const teacher of teacherInfos) {
       for (let i = 0; i < coursesPerUser; i++) {
         // 隨機userID
@@ -60,19 +70,21 @@ module.exports = {
         const dd = getRandomNum(1, 30)
         const randomDate = new Date(2023, mm, dd)
         const date = randomDate.toISOString().split('T')[0]
-        // 計算可安排課程數
-        const { startTime, endTime, duration } = teacher
-        const durationToHour = duration / 60
-        const numCourses = (endTime - startTime) / durationToHour
-        // 隨機開始、結束時段
-        const randomStartTime = Math.floor(Math.random() * numCourses) * durationToHour + startTime
-        const randomEndTime = randomStartTime + durationToHour
+        // 時間字串轉物件並計算可安排課程數
+        const startTime = dayjs(teacher.startTime, "HH:mm:ss")
+        const endTime = dayjs(teacher.endTime, "HH:mm:ss")
+        const duration = toMinutes(teacher.duration)
+        const numCourses = endTime.diff(startTime, 'minute') / duration
+
+        // 隨機選擇開始時段
+        const randomStartTime = startTime.add(Math.floor(Math.random() * numCourses) * duration, "minute")
+        const randomEndTime = randomStartTime.add(duration, "minute")
 
         //生成 course 資料
         await queryInterface.bulkInsert('Courses', [
           {
-            start_time: randomStartTime,
-            end_time: randomEndTime,
+            start_time: randomStartTime.format("HH:mm"),
+            end_time: randomEndTime.format("HH:mm"),
             date,
             rate: Math.round(Math.random() * 5 * 10) / 10,
             is_done: true,
@@ -86,7 +98,7 @@ module.exports = {
       }
     }
 
-    // 3.老師 預約 未評分 各2個
+    // // 3.老師 預約 未評分 各2個
     for (const teacher of teacherInfos) {
       for (let i = 0; i < coursesPerUser; i++) {
         // 隨機userID
@@ -96,19 +108,21 @@ module.exports = {
         const dd = getRandomNum(1, 30)
         const randomDate = new Date(2023, mm, dd)
         const date = randomDate.toISOString().split('T')[0]
-        // 計算可安排課程數
-        const { startTime, endTime, duration } = teacher
-        const durationToHour = duration / 60
-        const numCourses = (endTime - startTime) / durationToHour
-        // 隨機開始、結束時段
-        const randomStartTime = Math.floor(Math.random() * numCourses) * durationToHour + startTime
-        const randomEndTime = randomStartTime + durationToHour
+        // 時間字串轉物件並計算可安排課程數
+        const startTime = dayjs(teacher.startTime, "HH:mm:ss")
+        const endTime = dayjs(teacher.endTime, "HH:mm:ss")
+        const duration = toMinutes(teacher.duration)
+        const numCourses = endTime.diff(startTime, 'minute') / duration
+
+        // 隨機選擇開始時段
+        const randomStartTime = startTime.add(Math.floor(Math.random() * numCourses) * duration, "minute")
+        const randomEndTime = randomStartTime.add(duration, "minute")
 
         // 生成 course 資料
         await queryInterface.bulkInsert('Courses', [
           {
-            start_time: randomStartTime,
-            end_time: randomEndTime,
+            start_time: randomStartTime.format("HH:mm"),
+            end_time: randomEndTime.format("HH:mm"),
             date,
             rate: null,
             is_done: false,

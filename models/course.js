@@ -1,8 +1,8 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Course = sequelize.define('Course', {
-    startTime: DataTypes.FLOAT,
-    endTime: DataTypes.FLOAT,
+    startTime: DataTypes.TIME,
+    endTime: DataTypes.TIME,
     date: DataTypes.DATE,
     rate: DataTypes.FLOAT,
     isDone: DataTypes.BOOLEAN,

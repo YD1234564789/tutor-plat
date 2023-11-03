@@ -4,9 +4,9 @@ module.exports = (sequelize, DataTypes) => {
     method: DataTypes.STRING,
     classLink: DataTypes.STRING,
     weekDay: DataTypes.STRING,
-    startTime: DataTypes.FLOAT,
-    endTime: DataTypes.FLOAT,
-    duration: DataTypes.FLOAT
+    startTime: DataTypes.TIME,
+    endTime: DataTypes.TIME,
+    duration: DataTypes.TIME
   }, {
     underscored: true,
   });

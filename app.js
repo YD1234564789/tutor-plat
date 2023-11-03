@@ -42,4 +42,4 @@ app.listen(port, () => {
 
 module.exports = app //測試環境用到
 
-// 登入頁>model>passport>local auth>google auth>首頁>user個人>user編輯>seeder>老師看個人頁>申請老師>老師個人編輯>學生看老師>預約功能>評分功能>後台頁面>後台主頁
+// 登入頁>model>passport>local auth>google auth>首頁>user個人>user編輯>seeder>老師看個人頁>老師個人編輯>申請老師>學生看老師>預約功能>評分功能>後台頁面>後台主頁

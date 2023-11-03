@@ -1,51 +1,113 @@
-<form action="/teachers/{{teacher.id}}/?_method=PUT" method="POST" enctype="multipart/form-data">
-  <div class="form-row mb-3">
-    <label class="form-label" for="name">Name</label>
-    <input class="form-control" type="text" name="name" id="name" placeholder="Enter name" value="{{teacher.User.name}}"
-      required>
-  </div>
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <form action="/teachers/{{user.Teacher_info.id}}/?_method=PUT" method="POST" enctype="multipart/form-data">
+      <div class="form-floating mb-3">
+        <input class="form-control" type="text" name="name" id="name" placeholder="Enter name" value="{{user.name}}"
+          required>
+        <label class="form-label" for="name">姓名</label>
+      </div>
 
-  <div class="form-row mb-3">
-    <label class="form-label" for="country">Country</label>
-    <input class="form-control" type="text" name="country" id="country" placeholder="Enter country"
-      value="{{teacher.User.country}}">
-  </div>
+      <div class="form-floating mb-3">
+        <input class="form-control" type="text" name="country" id="country" placeholder="Enter country"
+          value="{{user.country}}" required>
+        <label class="form-label" for="country">國家</label>
+      </div>
 
-  <div class="form-row mb-3">
-    <label class="form-label" for="method">Method</label>
-    <textarea class="form-control" id="method" name="method" rows="3">{{teacher.method}}</textarea>
-  </div>
+      <div class="form-floating mb-3">
+        <input class="form-control" type="text" id="method" name="method" placeholder="Enter method"
+          value="{{user.Teacher_info.method}}" required>
+        <label class="form-label" for="method">教學方法</label>
+      </div>
 
-  <div class="form-row mb-3">
-    <label class="form-label" for="weekDay">WeekDay</label>
-    <textarea class="form-control" id="weekDay" name="weekDay" rows="3">{{teacher.weekDay}}</textarea>
-  </div>
+      <div class="form-floating mb-3">
+        <input class="form-control" type="text" id="classLink" name="classLink" placeholder="Enter method"
+          value="{{user.Teacher_info.classLink}}" >
+        <label class="form-label" for="method">教學網址</label>
+      </div>
 
-  <div class="form-row mb-3">
-    <label class="form-label" for="startTime">StartTime</label>
-    <textarea class="form-control" id="startTime" name="startTime" rows="3">{{teacher.startTime}}</textarea>
-  </div>
+      <div>上課星期</div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="1" value="1" name="weekDay">
+        <label class="form-check-label" for="1">星期一</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="2" value="2" name="weekDay">
+        <label class="form-check-label" for="2">星期二</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="3" value="3" name="weekDay">
+        <label class="form-check-label" for="3">星期三</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="4" value="4" name="weekDay">
+        <label class="form-check-label" for="4">星期四</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="5" value="5" name="weekDay">
+        <label class="form-check-label" for="5">星期五</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="6" value="6" name="weekDay">
+        <label class="form-check-label" for="6">星期六</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="0" value="0" name="weekDay">
+        <label class="form-check-label" for="0">星期日</label>
+      </div>
 
-  <div class="form-row mb-3">
-    <label class="form-label" for="endTime">EndTime</label>
-    <textarea class="form-control" id="endTime" name="endTime" rows="3">{{teacher.endTime}}</textarea>
-  </div>
-  
-  <div class="form-row mb-3">
-    <label class="form-label" for="duration">Duration</label>
-    <textarea class="form-control" id="duration" name="duration" rows="3">{{teacher.duration}}</textarea>
-  </div>
 
-  <div class="form-row mb-3">
-    <label class="form-label" for="description">Description</label>
-    <textarea class="form-control" id="description" name="description" rows="3">{{teacher.User.description}}</textarea>
-  </div>
+      <div class="form-floating mb-3">
+        <select class="form-select" id="startTime" name="startTime">
+          <option selected disabled>{{user.Teacher_info.startTime}}</option>
+          <option value="18">18:00</option>
+          <option value="18.5">18:30</option>
+          <option value="19">19:00</option>
+          <option value="19.5">19:30</option>
+          <option value="20">20:00</option>
+          <option value="20.5">20:30</option>
+          <option value="21">21:00</option>
+          <option value="21.5">21:30</option>
+        </select>
+        <label for="startTime" class="form-label">開始時間</label>
+      </div>
 
-  <div class="form-row mb-3">
-    <label class="form-label" for="avatar">Avatar</label>
-    <input class="form-control" type="file" class="form-control-file" id="avatar" name="avatar">
-  </div>
+      <div class="form-floating mb-3">
+        <select class="form-select" id="endTime" name="endTime">
+          <option selected disabled>{{user.Teacher_info.endTime}}</option>
+          <option value="18.5">18:30</option>
+          <option value="19">19:00</option>
+          <option value="19.5">19:30</option>
+          <option value="20">20:00</option>
+          <option value="20.5">20:30</option>
+          <option value="21">21:00</option>
+          <option value="21.5">21:30</option>
+          <option value="22">22:00</option>
+        </select>
+        <label for="endTime" class="form-label">結束時間</label>
+      </div>
 
-  <button type="submit" class="btn btn-primary">Submit</button>
-  <a class="btn btn-outline-secondary" href="javascript:history.back()">Back</a>
-</form>
+        <div class="form-floating mb-3">
+          <select class="form-select" id="duration" name="duration">
+            <option selected disabled>{{user.Teacher_info.duration}}分鐘
+            </option>
+            <option value="30">30分鐘</option>
+            <option value="60">60分鐘</option>
+          </select>
+          <label for="duration" class="form-label">課程時長</label>
+        </div>
+
+      <div class="form-floating mb-3">
+        <textarea class="form-control" id="description" name="description" style="height: 100px">{{user.description}}</textarea>
+        <label class="form-label" for="description">自我介紹</label>
+      </div>
+
+      <div class="form-row mb-3">
+        <label class="form-label" for="avatar">大頭貼</label>
+        <input class="form-control" type="file" class="form-control-file" id="avatar" name="avatar">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <a class="btn btn-outline-secondary" href="javascript:history.back()">Back</a>
+    </form>
+  </div>
+</div>

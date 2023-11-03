@@ -53,10 +53,12 @@ passport.use(new GoogleStrategy({
 passport.serializeUser((user, cb) => {
   cb(null, user.id)
 })
+// 登入一起帶上老師身分
 passport.deserializeUser((id, cb) => {
   User.findByPk(id, {
     include: Teacher_info
   }).then(user => {
+    // console.log("usertojson", user.toJSON())
     return cb(null, user.toJSON())
   })
 })
