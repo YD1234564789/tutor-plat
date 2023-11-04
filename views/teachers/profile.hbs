@@ -23,8 +23,8 @@
         {{#unless this.isDone}}
             <div class="card m-1" style="width: 22rem">
               <div class="card-body">
-                <p><strong>StartTime: </strong>{{this.startTime}}</p>
-                <p><strong>EndTime: </strong>{{this.endTime}}</p>
+                <p><strong>StartTime: </strong>{{this.date}}　{{this.startTime}}</p>
+                <p><strong>EndTime: </strong>{{this.date}}　{{this.endTime}}</p>
                 <p><strong>User: </strong>{{this.userId}}</p>
               </div>
             </div>
@@ -39,8 +39,8 @@
         {{#if this.isDone}}
             <div class="card m-1" style="width: 22rem">
               <div class="card-body">
-                <p><strong>StartTime: </strong>{{this.startTime}}</p>
-                <p><strong>EndTime: </strong>{{this.endTime}}</p>
+                <p><strong>StartTime: </strong>{{this.date}}　{{this.startTime}}</p>
+                <p><strong>EndTime: </strong>{{this.date}}　{{this.endTime}}</p>
                 <i class="fas fa-star fa-lg" style="color: #ffff00;"></i>{{this.rate}}
                 <p><strong>Message: </strong>{{this.message}}</p>
               </div>

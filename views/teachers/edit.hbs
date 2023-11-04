@@ -26,72 +26,49 @@
       </div>
 
       <div>上課星期</div>
+      {{#each WEEK}}
       <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="1" value="1" name="weekDay">
-        <label class="form-check-label" for="1">星期一</label>
+        <input class="form-check-input" type="checkbox" id="{{@key}}" value="{{@key}}" name="weekDay" >
+        <label class="form-check-label" for="{{@key}}">{{this}}</label>
       </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="2" value="2" name="weekDay">
-        <label class="form-check-label" for="2">星期二</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="3" value="3" name="weekDay">
-        <label class="form-check-label" for="3">星期三</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="4" value="4" name="weekDay">
-        <label class="form-check-label" for="4">星期四</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="5" value="5" name="weekDay">
-        <label class="form-check-label" for="5">星期五</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="6" value="6" name="weekDay">
-        <label class="form-check-label" for="6">星期六</label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" id="0" value="0" name="weekDay">
-        <label class="form-check-label" for="0">星期日</label>
-      </div>
-
+      {{/each}}
 
       <div class="form-floating mb-3">
         <select class="form-select" id="startTime" name="startTime">
-          <option selected disabled>{{user.Teacher_info.startTime}}</option>
-          <option value="18">18:00</option>
-          <option value="18.5">18:30</option>
-          <option value="19">19:00</option>
-          <option value="19.5">19:30</option>
-          <option value="20">20:00</option>
-          <option value="20.5">20:30</option>
-          <option value="21">21:00</option>
-          <option value="21.5">21:30</option>
+          <option disabled>{{user.Teacher_info.startTime}}</option>
+          <option value="18:00:00">18:00</option>
+          <option value="18:30:00">18:30</option>
+          <option value="19:00:00">19:00</option>
+          <option value="19:30:00">19:30</option>
+          <option value="20:00:00">20:00</option>
+          <option value="20:30:00">20:30</option>
+          <option value="21:00:00">21:00</option>
+          <option value="21:30:00">21:30</option>
         </select>
         <label for="startTime" class="form-label">開始時間</label>
       </div>
 
       <div class="form-floating mb-3">
         <select class="form-select" id="endTime" name="endTime">
-          <option selected disabled>{{user.Teacher_info.endTime}}</option>
-          <option value="18.5">18:30</option>
-          <option value="19">19:00</option>
-          <option value="19.5">19:30</option>
-          <option value="20">20:00</option>
-          <option value="20.5">20:30</option>
-          <option value="21">21:00</option>
-          <option value="21.5">21:30</option>
-          <option value="22">22:00</option>
+          <option disabled>{{user.Teacher_info.endTime}}</option>
+          <option value="18:30:00">18:30</option>
+          <option value="19:00:00">19:00</option>
+          <option value="19:30:00">19:30</option>
+          <option value="20:00:00">20:00</option>
+          <option value="20:30:00">20:30</option>
+          <option value="21:00:00">21:00</option>
+          <option value="21:30:00">21:30</option>
+          <option value="22:00:00">22:00</option>
         </select>
         <label for="endTime" class="form-label">結束時間</label>
       </div>
 
         <div class="form-floating mb-3">
           <select class="form-select" id="duration" name="duration">
-            <option selected disabled>{{user.Teacher_info.duration}}分鐘
+            <option disabled>{{user.Teacher_info.duration}}分鐘
             </option>
-            <option value="30">30分鐘</option>
-            <option value="60">60分鐘</option>
+            <option value="00:30:00">30分鐘</option>
+            <option value="01:00:00">60分鐘</option>
           </select>
           <label for="duration" class="form-label">課程時長</label>
         </div>
