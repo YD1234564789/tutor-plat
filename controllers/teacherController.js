@@ -6,10 +6,26 @@ const customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
 const teacherController = {
   getNewTeacher: (req, res, next) => {
-
+    const WEEK = { 1: "星期一", 2: "星期二", 3: "星期三", 4: "星期四", 5: "星期五", 6: "星期六", 7: "星期日" }
+    res.render('teachers/apply', { WEEK })
   },
   postTeacher: (req, res, next) => {
-
+    const { method, classLink, weekDay, startTime, endTime, duration } = req.body
+    if (!method || !classLink || !weekDay || !startTime || !endTime || !duration) throw new Error('All infomation needed！')
+    return Teacher_info.create({
+      method,
+      classLink,
+      weekDay: JSON.stringify(weekDay),
+      startTime,
+      endTime,
+      duration,
+      userId: req.user.id
+    })
+    .then(() => {
+      req.flash('success_messages', '成功成為老師!')
+      res.redirect('/home')
+    })
+    .catch(err => next(err))
   },
   getTeacher: (req, res, next) => {
     return Promise.all([

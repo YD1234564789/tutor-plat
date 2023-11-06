@@ -1,0 +1,66 @@
+<div class="row justify-content-center">
+  <div class="col-md-7">
+    <form action="/teachers/apply" method="POST" >
+
+      <div class="form-floating mb-3">
+        <input class="form-control" type="text" id="method" name="method" placeholder="Enter method" required>
+        <label class="form-label" for="method">教學方法</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input class="form-control" type="text" id="classLink" name="classLink" placeholder="Enter method">
+        <label class="form-label" for="method">教學網址</label>
+      </div>
+
+      <div>上課星期</div>
+      {{#each WEEK}}
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" id="{{@key}}" value="{{@key}}" name="weekDay">
+        <label class="form-check-label" for="{{@key}}">{{this}}</label>
+      </div>
+      {{/each}}
+
+      <div class="form-floating mb-3">
+        <select class="form-select" id="startTime" name="startTime">
+          <option disabled></option>
+          <option value="18:00:00">18:00</option>
+          <option value="18:30:00">18:30</option>
+          <option value="19:00:00">19:00</option>
+          <option value="19:30:00">19:30</option>
+          <option value="20:00:00">20:00</option>
+          <option value="20:30:00">20:30</option>
+          <option value="21:00:00">21:00</option>
+          <option value="21:30:00">21:30</option>
+        </select>
+        <label for="startTime" class="form-label">開始時間</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <select class="form-select" id="endTime" name="endTime">
+          <option disabled></option>
+          <option value="18:30:00">18:30</option>
+          <option value="19:00:00">19:00</option>
+          <option value="19:30:00">19:30</option>
+          <option value="20:00:00">20:00</option>
+          <option value="20:30:00">20:30</option>
+          <option value="21:00:00">21:00</option>
+          <option value="21:30:00">21:30</option>
+          <option value="22:00:00">22:00</option>
+        </select>
+        <label for="endTime" class="form-label">結束時間</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <select class="form-select" id="duration" name="duration">
+          <option disabled></option>
+          <option value="00:30:00">30分鐘</option>
+          <option value="01:00:00">60分鐘</option>
+        </select>
+        <label for="duration" class="form-label">課程時長</label>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <a class="btn btn-outline-secondary" href="javascript:history.back()">Back</a>
+    </form>
+  </div>
+</div>

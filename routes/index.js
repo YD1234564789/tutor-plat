@@ -21,6 +21,8 @@ router.get('/users/:id/edit', authenticated, userController.getEdit)
 router.get('/users/:id', authenticated,userController.getUser)
 // 設定上傳單張圖片avatar對應input name
 router.put('/users/:id', upload.single('avatar'),userController.putUser)
+router.get('/teachers/apply', teacherController.getNewTeacher)
+router.post('/teachers/apply', teacherController.postTeacher)
 router.get('/teachers/:id/edit', teacherController.editPage)
 router.get('/teachers/:id', teacherController.getTeacher)
 router.put('/teachers/:id', upload.single('avatar'), teacherController.putTeacher)
