@@ -1,0 +1,94 @@
+<div class="row">
+  <div class="col-md-8">
+    <div class="row">
+      <div class="col-md-5">
+        <img class="rounded mx-auto d-block" src="{{teacher.User.avatar}}"
+          style="width: 250px; margin-bottom: 20px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
+        <br>
+      </div>
+
+      <div class="col-md-7">
+        <span class="fi fi-{{teacher.User.country}}"></span>
+        <h5>{{teacher.User.name}}</h5>
+        <div><strong>Email：</strong>{{teacher.User.email}}</div>
+      </div>
+    </div>
+    <div class="col-md-auto">
+      <h5>Introduction</h5>
+      <div class="row">
+        <div>{{teacher.User.description}}</div>
+      </div>
+      <hr>
+
+      <h5>Teaching Style</h5>
+      <div class="row">
+        <div>{{teacher.method}}</div>
+        <div>ClassLink：{{teacher.classLink}}</div>
+      </div>
+      <hr>
+
+      <h5>History Courses</h5>
+      <div class="row">
+          {{#each courses}}
+            {{#if this.isDone}}
+                <span><i class="fas fa-star fa-lg" style="color: #ebeb40;"></i>{{this.rate}}
+                <span><strong>Message: </strong>{{this.message}}</span></span>
+            {{/if}}
+          {{/each}}
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-4">
+    <form action="/teachers/{{teacher.id}}/reserve" method="POST">
+      <h4>預約上課</h4>
+      <select name="bookDate" id="bookDate">
+        <option>請選擇日期</option>
+        {{#each schedule}}
+        <option id="selected-date" value="{{this.date}} {{this.startTime}} {{this.endTime}}">{{this.date}} {{this.startTime}} - {{this.endTime}}</option>
+        {{/each}}
+      </select>
+      
+        <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reserveModal">Submit</button>
+    </form>
+  </div>
+</div>
+
+{{!-- Modal --}}
+<div class="modal fade" id="reserveModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">預約時間</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="reserveDate">
+        <p>老師：{{teacher.User.name}}</p>
+        <p id="booked-date">時間：</p>
+      </div>
+      <div class="modal-footer">
+        <button id="close-booked-button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a class="btn btn-outline-secondary mt-2" href="javascript:history.back()">Back</a>
+
+<script>
+ // id:"bookDate" 後端收到的選項欄位 同name
+ // 時間 :  id="booked-date"  Modal 跳出的文字
+ // option id="selected-date" 被選項
+  const selectElement = document.getElementById('bookDate')
+  const bookedDateElement = document.getElementById('booked-date')
+  const closeBookedButton = document.getElementById("close-booked-button")
+
+  selectElement.addEventListener('change', function () {
+    const selectedDate = this.value
+    bookedDateElement.textContent = `時間：${selectedDate}`
+  })
+  
+  closeBookedButton.addEventListener('click', function() {
+    location.reload()
+  })
+</script>

@@ -1,6 +1,7 @@
 'use strict';
 const { Teacher_info, User } = require('../models')
 const { faker } = require('@faker-js/faker')
+const { toMinutes } = require('../helpers/formatTime-helpers')
 const dayjs = require('dayjs')
 const customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
@@ -16,11 +17,6 @@ module.exports = {
     const teacherInfos = await Teacher_info.findAll();
     const coursesPerUser = 2
     const getRandomNum = (min, max) => Math.floor(Math.random() * (max - min +1)) + min
-    const toMinutes = (dateString) => {
-      let [hour, minutes, second] = dateString.split(":").map(Number)
-      let total = hour * 60 + minutes
-      return total
-    }
 
     // 1.學生 已完成 未評分 各2個
     for (const user of users) {
