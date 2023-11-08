@@ -4,7 +4,7 @@ const admin = require('./modules/admin')
 const auth = require('./modules/auth')
 const passport = require('../config/passport')
 const { generalErrorHandler } = require('../middleware/error-handler')
-const { authenticated } = require('../middleware/auth')
+const { authenticated, authenticatedTeacher } = require('../middleware/auth')
 const upload = require('../middleware/multer')
 const userController = require('../controllers/userController')
 const teacherController = require('../controllers/teacherController')
@@ -22,15 +22,16 @@ router.get('/logout', userController.logout)
 router.get('/users/:id/edit', authenticated, userController.getEdit)
 router.get('/users/:id', authenticated,userController.getUser)
 // 設定上傳單張圖片avatar對應input name
-router.put('/users/:id', upload.single('avatar'),userController.putUser)
+router.put('/users/:id', authenticated, upload.single('avatar'),userController.putUser)
 
-router.get('/teachers/apply', teacherController.getNewTeacher)
-router.post('/teachers/apply', teacherController.postTeacher)
-router.post('/teachers/:id/reserve', teacherController.postReserve)
-router.get('/teachers/:id/myProfile', teacherController.myProfile) //老師看自己檔案
-router.get('/teachers/:id/edit', teacherController.editPage)
-router.get('/teachers/:id', teacherController.getTeacher) // 學生看老師
+router.get('/teachers/apply', authenticated, teacherController.getNewTeacher)
+router.post('/teachers/apply', authenticated, teacherController.postTeacher)
+router.post('/teachers/:id/reserve', authenticated, teacherController.postReserve)
+router.get('/teachers/:id/myProfile', authenticatedTeacher, teacherController.myProfile) //老師看自己檔案
+router.get('/teachers/:id/edit', authenticatedTeacher, teacherController.editPage)
+router.get('/teachers/:id', authenticated, teacherController.getTeacher) // 學生看老師
 router.put('/teachers/:id', upload.single('avatar'), teacherController.putTeacher)
+router.get('/teachers', authenticated, teacherController.getTeachers)
 router.get('/home', authenticated, homeController.getHome)
 
 //都不符合路由時重新導向...

@@ -1,7 +1,11 @@
 <header>
   <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary px-4">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">Tutor 平台</a>
+      {{#if user.Teacher_info}}
+        <a class="navbar-brand" href="/teachers/{{user.Teacher_info.id}}/myProfile">Tutor 平台</a>
+      {{else}}
+        <a class="navbar-brand" href="/">Tutor 平台</a>
+      {{/if}}
       {{#if user}}
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
         aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">

@@ -5,6 +5,15 @@ const dayjs = require('dayjs')
 const customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
 const teacherController = {
+  getTeachers: (req, res, next) => {
+    return Teacher_info.findAll({
+      include: User,
+      nest: true,
+      raw: true
+    }).then(teachers => {
+      return res.render('teachers', { teachers })
+    })
+  },
   getNewTeacher: (req, res, next) => {
     const WEEK = { 1: "星期一", 2: "星期二", 3: "星期三", 4: "星期四", 5: "星期五", 6: "星期六", 7: "星期日" }
     res.render('teachers/apply', { WEEK })
@@ -38,7 +47,7 @@ const teacherController = {
         where: {
           teacherInfoId: req.params.id
         },
-        
+        order: [["date", 'DESC']],
         raw:true,
       })
     ])
