@@ -1,13 +1,13 @@
 <div class="row">
   <div class="col-md-8">
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-md-5 ">
         <img class="rounded mx-auto d-block" src="{{teacher.User.avatar}}"
-          style="width: 250px; margin-bottom: 20px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
+          style="width: 250px; margin-top: 20px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
         <br>
       </div>
 
-      <div class="col-md-7">
+      <div class="col-md-7 align-self-center">
         <span class="fi fi-{{teacher.User.country}}"></span>
         <h5>{{teacher.User.name}}</h5>
         <div><strong>Email：</strong>{{teacher.User.email}}</div>
@@ -30,7 +30,7 @@
       <h5>History Courses</h5>
       <div class="row">
           {{#each courses}}
-            {{#if this.isDone}}
+            {{#if this.rate}}
                 <span><i class="fas fa-star fa-lg" style="color: #ebeb40;"></i>{{this.rate}}
                 <span><strong>Message: </strong>{{this.message}}</span></span>
             {{/if}}

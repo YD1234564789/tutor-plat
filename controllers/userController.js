@@ -27,14 +27,16 @@ const userController = {
       }))
       .then(() => {
         req.flash('success_messages', '成功註冊帳號!')
-        res.redirect('/signin')
+        res.redirect('/signIn')
       })
       .catch(err => next(err))
   },
   logout: (req, res) => {
-    req.flash('success_messages', '登出成功!')
-    res.logout
-    res.redirect('/signin')
+    req.logout(err => {
+      if (err) { return next(err)}
+      req.flash('success_messages', '登出成功!')
+      res.redirect('/signIn')
+    })
   },
   getUser: (req, res, next) => {
     return Promise.all([

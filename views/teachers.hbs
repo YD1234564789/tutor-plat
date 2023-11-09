@@ -8,15 +8,13 @@
       </a>
 
       <div class="card-body">
-        <p class="card-text">
+        <span class="fi fi-{{this.User.country}}"></span>
+        <span class="card-text">
           <a href="/teachers/{{this.id}}">
             {{this.User.name}}
           </a>
-        </p>
-       <span class="fi fi-{{this.User.country}}"></span>
-        <p class="card-text text-truncate">{{this.User.description}}</p>
-        <div class="d-flex">
-        </div>
+        </span>
+        <p class="card-text text-truncate mt-2">{{this.User.description}}</p>
       </div>
       
     </div>
