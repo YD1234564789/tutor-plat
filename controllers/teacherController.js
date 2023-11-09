@@ -48,7 +48,7 @@ const teacherController = {
           teacherInfoId: req.params.id
         },
         order: [["date", 'DESC']],
-        raw:true,
+        raw:true
       })
     ])
       .then(([teacher, courses]) => {
@@ -202,7 +202,22 @@ const teacherController = {
       .catch(err => next(err))
   },
   putScore: (req, res, next) => {
-
+    const { rate, message } = req.body
+    const CourseId = req.params.id
+    const userId = req.user.id
+    if (rate > 5 || rate < 1) throw new Error('分數請在1~5之間，可小數1位')
+      return Course.findByPk(CourseId)
+        .then(course => {
+          return course.update({
+            rate: Number(rate),
+            message
+          })
+        })
+        .then(() => {
+          req.flash('success_messages', 'Score was successfully to update')
+          res.redirect(`/users/${userId}`)
+        })
+        .catch(err => next(err))
   }
 }
 

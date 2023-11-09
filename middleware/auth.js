@@ -13,7 +13,7 @@ const authenticated = (req, res, next) => {
 const authenticatedTeacher = (req, res, next) => {
   if (ensureAuthenticated(req)) {
     if (getUser(req).Teacher_info) return next()
-    res.redirect('/home')
+    res.redirect('/teachers')
   }
   res.redirect('/signin')
 }

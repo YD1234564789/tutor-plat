@@ -26,6 +26,7 @@ router.put('/users/:id', authenticated, upload.single('avatar'),userController.p
 
 router.get('/teachers/apply', authenticated, teacherController.getNewTeacher)
 router.post('/teachers/apply', authenticated, teacherController.postTeacher)
+router.put('/teachers/:id/score', authenticated, teacherController.putScore)
 router.post('/teachers/:id/reserve', authenticated, teacherController.postReserve)
 router.get('/teachers/:id/myProfile', authenticatedTeacher, teacherController.myProfile) //老師看自己檔案
 router.get('/teachers/:id/edit', authenticatedTeacher, teacherController.editPage)

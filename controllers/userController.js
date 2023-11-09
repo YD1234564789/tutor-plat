@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const { imgurFileHandler } = require('../helpers/file-helper')
-const { User } = require('../models')
+const { User, Course, Teacher_info } = require('../models')
 
 const userController = {
   signInPage: (req, res) =>{
@@ -37,12 +37,39 @@ const userController = {
     res.redirect('/signin')
   },
   getUser: (req, res, next) => {
-    return User.findByPk(req.params.id, {
-      raw: true
-    })
-      .then(user => {
+    return Promise.all([
+      User.findByPk(req.params.id, {
+        raw: true
+      }),
+      Course.findAll({
+        where: {
+          userId: req.params.id,
+          isDone: "0"
+        },
+        include: Teacher_info,
+        limit: 2,
+        order: [["date", "DESC"]],
+        raw: true,
+        nest: true
+      }),
+      Course.findAll({
+        where: {
+          userId: req.params.id,
+          isDone: "1"
+        },
+        include: {
+          model: Teacher_info,
+          include: User,
+        },
+        nest: true,
+        order: [["rate", "ASC"]],
+        raw: true
+      })
+    ])
+      .then(([user, newCourses, history]) => {
+        // console.log('history', JSON.stringify(history, null, 2))
         if (!user) {throw new Error("User didn't exist~")}
-        return res.render('users/profile', { user })
+        return res.render('users/profile', { user, newCourses, history })
       })
       .catch(err => next(err))
   },

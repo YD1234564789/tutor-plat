@@ -1,29 +1,92 @@
 <div class="row">
+
   <div class="col-md-4">
-    <img class="img-responsive center-block" src="{{user.avatar}}"
-      style="width: 250px; margin-bottom: 25px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
+    <img class="rounded mx-auto d-block" src="{{user.avatar}}"
+      style="width: 250px; margin-bottom: 20px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
     <br>
-    <h2>{{user.name}}</h2>
     <div>
-      <h5>關於我</h5>
-      <p>{{user.description}}</p>
+      <span class="fi fi-{{user.country}}"></span>
+      <h5>{{user.name}}</h5>
+      <div><strong>Email：</strong>{{user.email}}</div>
+      <div><strong>Description：</strong>{{user.description}}</div>
     </div>
     <p><a class="btn btn-outline-secondary" href="/users/{{user.id}}/edit">edit</a></p>
   </div>
 
   <div class="col-md-8">
-    <div class="well">
-      <ul class="list-unstyled">
-        <li><strong>{{user.name}}</strong></li>
-        <li>{{user.email}}</li>
-      </ul>
-      {{!-- {{#ifCond user.id currentUser.id}} --}}
-      <p><a class="btn btn-outline-secondary" href="/users/{{user.id}}/edit">edit</a></p>
-      {{!-- {{/ifCond}} --}}
+    <h5>New Courses</h5>
+    <div class="row">
+      {{#each newCourses}}
+      <div class="card m-1" style="width: 26rem">
+        <div class="card-body">
+          <p><strong>StartTime: </strong>{{this.date}}　{{this.startTime}}</p>
+          <p><strong>EndTime: </strong>{{this.date}}　{{this.endTime}}</p>
+          <p><strong>User: </strong>{{this.teacherInfoId}}</p>
+          <p><strong>ClassLink: </strong>{{this.Teacher_info.classLink}}</p>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    <hr>
+
+    <h5>History Courses</h5>
+    <div class="row">
+      {{#each history}}
+      {{#if this.rate}}
+      <div class="card m-1 " style="width: 26rem">
+        <div class="card-body">
+          <img class="rounded  d-block" src="{{this.Teacher_info.User.avatar}}"
+            style="width: 100px; margin-bottom: 10px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
+          <span><strong>TeacherName: </strong>{{this.Teacher_info.User.name}}</span>
+          <br>
+          <i class="fas fa-star fa-lg" style="color: #ebeb40;"></i>{{this.rate}}
+          <p><strong>Message: </strong>{{this.message}}</p>
+        </div>
+      </div>
+      {{else}}
+      <div class="card m-1" style="width: 26rem">
+        <div class="card-body">
+          <img class="rounded d-block" src="{{this.Teacher_info.User.avatar}}"
+            style="width: 100px; margin-bottom: 10px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
+          <span><strong>TeacherName: </strong>{{this.Teacher_info.User.name}}</span>
+          <span><a id="{{this.id}}" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#scoreModal" href="">Score</a></span>
+        </div>
+      </div>
+      {{!-- Modal --}}
+      <div class="modal fade" id="scoreModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">給老師個評分吧</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/teachers/{{this.id}}/score/?_method=PUT" method="POST" >
+              <div class="modal-body" id="reserveDate">
+                <div class="form-row mb-3">
+                  <label class="form-label" for="rate">Rating：</label>
+                  <input class="form-control" type="number" id="rate" name="rate" placeholder="1~5 ex：4.5" step="0.1" min="1"
+                    max="5" required>
+                </div>
+      
+                <div class="form-row mb-3">
+                  <label class="form-label" for="message">Comment：</label>
+                  <textarea class="form-control" id="message" name="message" maxlength="50"></textarea>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      {{/if}}
+      {{/each}}
     </div>
   </div>
+
 </div>
 <hr>
-
-
 <a class="btn btn-outline-secondary mt-2" href="javascript:history.back()">Back</a>
+

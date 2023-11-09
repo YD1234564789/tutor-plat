@@ -82,12 +82,12 @@
   const selectElement = document.getElementById('bookDate')
   const bookedDateElement = document.getElementById('booked-date')
   const closeBookedButton = document.getElementById("close-booked-button")
-
+  // modal中的時間從選中的option抓
   selectElement.addEventListener('change', function () {
     const selectedDate = this.value
     bookedDateElement.textContent = `時間：${selectedDate}`
   })
-  
+  // 按modal中取消會reload
   closeBookedButton.addEventListener('click', function() {
     location.reload()
   })
