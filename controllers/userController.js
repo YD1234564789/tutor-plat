@@ -97,7 +97,7 @@ const userController = {
         if (!user) throw new Error("User didn't exist!")
         return user.update({
           name,
-          country,
+          country: country.toLowerCase(),
           description,
           avatar: filePath || user.avatar
         })

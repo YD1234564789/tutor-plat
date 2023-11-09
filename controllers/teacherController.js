@@ -19,20 +19,25 @@ const teacherController = {
     res.render('teachers/apply', { WEEK })
   },
   postTeacher: (req, res, next) => {
-    const { method, classLink, weekDay, startTime, endTime, duration } = req.body
+    const { method, classLink, weekDay } = req.body
+    const startTime = dayjs(req.body.startTime, "HH:mm:ss")
+    const endTime = dayjs(req.body.endTime, "HH:mm:ss")
+    const duration = dayjs(req.body.duration, "HH:mm:ss")
+    const timeDifference = endTime.diff(startTime, 'minute') - duration.diff(dayjs("00:00:00", "HH:mm:ss"), "minute")
+    if (timeDifference < 0) throw new Error('開始時間、結束時間與課程時間設定有誤')
     if (!method || !classLink || !weekDay || !startTime || !endTime || !duration) throw new Error('All infomation needed！')
     return Teacher_info.create({
       method,
       classLink,
       weekDay: JSON.stringify(weekDay),
-      startTime,
-      endTime,
-      duration,
+      startTime: startTime.format("HH:mm"),
+      endTime: endTime.format("HH:mm"),
+      duration: duration.format("HH:mm"),
       userId: req.user.id
     })
-    .then(() => {
-      req.flash('success_messages', '成功成為老師!')
-      res.redirect('/teachers/myProfile')
+    .then(user => {
+      req.flash('success_messages', '恭喜成為老師!')
+      res.redirect(`/teachers/${user.id}/myProfile`)
     })
     .catch(err => next(err))
   },
@@ -53,6 +58,7 @@ const teacherController = {
     ])
       .then(([teacher, courses]) => {
         if (!teacher) throw new Error("Teacher diidn't exist!")
+        // 將整理後時間傳到樣板
         const data = courses.map(c => {
           const sTime = removeSeconds(c.startTime)
           const eTime = removeSeconds(c.endTime)
@@ -83,14 +89,13 @@ const teacherController = {
       })
     ])
       .then(([teacher, courses]) => {
-        if (!teacher) throw new Error("Teacher diidn't exist!")
+        if (!teacher) throw new Error("Teacher didn't exist!")
         // 因要計算先用dayjs轉物件，最後存入值要format過
         const sTime = dayjs(teacher.startTime, "HH:mm:ss")
         const eTime = dayjs(teacher.endTime, "HH:mm:ss")
         const duration = toMinutes(teacher.duration)
         const weekDay = teacher.weekDay
         const solts = eTime.diff(sTime, "minute") / duration
-
         const schedule = []
         const today = dayjs()
         // each已預約課程，簡化後push到新陣列
@@ -164,14 +169,14 @@ const teacherController = {
       .then(([user, filePath]) => {
         return user.update({
           name,
-          country,
+          country: country.toLowerCase(),
           description,
           avatar: filePath || user.avatar
         })
       })
       .then(() => {
         req.flash('success_messages', 'Info was successfully to update')
-        res.redirect(`/teachers/${req.params.id}`)
+        res.redirect(`/teachers/${req.params.id}/myProfile`)
       })
       .catch(err => next(err))
   },
