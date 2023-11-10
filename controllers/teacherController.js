@@ -1,4 +1,4 @@
-const { Teacher_info, User, Course } = require('../models')
+const { Teacher_info, User, Course, sequelize } = require('../models')
 const { imgurFileHandler } = require('../helpers/file-helper')
 const { removeSeconds, toMinutes } = require('../helpers/formatTime-helpers')
 const { getOffset, getPagination } = require('../helpers/pagination-helper')
@@ -11,13 +11,25 @@ const teacherController = {
     const page = Number(req.query.page) || 1
     const limit = Number(req.query.limit) || DEFAULT_LIMIT
     const offset = getOffset(limit, page)
-    return Teacher_info.findAndCountAll({
-      include: User,
-      limit,
-      offset,
-      nest: true,
-      raw: true,
-    }).then(teachers => {
+    return Promise.all([
+      // Course.findAll({
+      //   attributes: ['userId', 'name', 'avatar'],
+      //   include: [{
+      //     model: Course,
+      //     attributes: [
+      //       [sequelize.fn('SUM', sequelize.col(''))]
+      //     ]
+      //   }]
+      // }), 
+      Teacher_info.findAndCountAll({
+        include: User,
+        limit,
+        offset,
+        nest: true,
+        raw: true,
+      })
+    ])
+    .then(teachers => {
       return res.render('teachers', { 
         teachers: teachers.rows, 
         pagination: getPagination(limit, page, teachers.count) 

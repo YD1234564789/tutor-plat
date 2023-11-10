@@ -4,7 +4,7 @@ module.exports = {
   up:  (queryInterface, Sequelize) => {
     return queryInterface.sequelize.transaction((t) => {
       return Promise.all([
-        queryInterface.addColumn('Couses', 'user_id', {
+        queryInterface.addColumn('Courses', 'user_id', {
           type: Sequelize.INTEGER,
           allowNull: false,
           references: {
@@ -12,7 +12,7 @@ module.exports = {
             key: 'id'
           }
         }, { transaction: t }),
-        queryInterface.addColumn('Couses', 'teacher_info_id', {
+        queryInterface.addColumn('Courses', 'teacher_info_id', {
           type: Sequelize.INTEGER,
           allowNull: false,
           references: {
