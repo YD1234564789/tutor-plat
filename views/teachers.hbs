@@ -1,10 +1,10 @@
-<div class="row mt-3">
+<div class="row mt-3 ">
   {{#each teachers}}
   <div class="col-md-4">
     <div class="card mb-4 shadow-sm">
       <a href="/teachers/{{this.id}}">
         <img class="card-img-top img-fluid" src="{{this.User.avatar}}" alt="Card image cap" width="286px" height="180px"
-          style="transition: opacity 0.5s; opacity:0;" "height: 400px;" onload="this.style.opacity=1;">
+          style="transition: opacity 0.5s; opacity:0;" "height: 200px;" onload="this.style.opacity=1;">
       </a>
 
       <div class="card-body">
@@ -20,4 +20,35 @@
     </div>
   </div>
   {{/each}}
+</div>
+
+{{!-- Pagination --}}
+<div class="col-md-2 mx-auto">
+  <nav class="mt-2" aria-label="page navigation">
+    <ul class="pagination d-flex justify-content-center">
+
+      <li class="page-item {{#ifCond pagination.currentPage 1}}disabled{{/ifCond}}">
+        <a class="page-link" href="/teachers?page={{pagination.prev}}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+
+      {{#each pagination.pages}}
+      {{#ifCond this ../pagination.currentPage}}
+      <li class="page-item active"><a class="page-link" href="#">{{this}}</a></li>
+      {{else}}
+      <li class="page-item">
+        <a class="page-link" href="/teachers?page={{this}}">{{this}}</a>
+      </li>
+      {{/ifCond}}
+      {{/each}}
+
+      <li class="page-item {{#ifCond pagination.currentPage pagination.totalPage}}disabled{{/ifCond}}">
+        <a class="page-link" href="/teachers?page={{pagination.next}}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+
+    </ul>
+  </nav>
 </div>

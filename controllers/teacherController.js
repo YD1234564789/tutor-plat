@@ -1,17 +1,27 @@
 const { Teacher_info, User, Course } = require('../models')
 const { imgurFileHandler } = require('../helpers/file-helper')
 const { removeSeconds, toMinutes } = require('../helpers/formatTime-helpers')
+const { getOffset, getPagination } = require('../helpers/pagination-helper')
 const dayjs = require('dayjs')
 const customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
 const teacherController = {
   getTeachers: (req, res, next) => {
-    return Teacher_info.findAll({
+    const DEFAULT_LIMIT = 6
+    const page = Number(req.query.page) || 1
+    const limit = Number(req.query.limit) || DEFAULT_LIMIT
+    const offset = getOffset(limit, page)
+    return Teacher_info.findAndCountAll({
       include: User,
+      limit,
+      offset,
       nest: true,
-      raw: true
+      raw: true,
     }).then(teachers => {
-      return res.render('teachers', { teachers })
+      return res.render('teachers', { 
+        teachers: teachers.rows, 
+        pagination: getPagination(limit, page, teachers.count) 
+      })
     })
   },
   getNewTeacher: (req, res, next) => {

@@ -4,7 +4,7 @@
       {{#if user.Teacher_info}}
         <a class="navbar-brand" href="/teachers/{{user.Teacher_info.id}}/myProfile">Tutor 平台</a>
       {{else}}
-        <a class="navbar-brand" href="/">Tutor 平台</a>
+        <a class="navbar-brand" href="/home">Tutor 平台</a>
       {{/if}}
       {{#if user}}
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
@@ -18,21 +18,22 @@
               <li class="nav-item">
                 <a href="/admin" class="nav-link">Admin 後台</a>
               </li>
-            {{/if}}
-              <li class="nav-item d-inline-flex align-items-center">
-                <span class="text-white nav-link">Hi, {{ user.name }}</span>
-              </li>
-            {{#if user.Teacher_info}}
-              <li class="nav-item ">
-                <a href="/teachers/{{user.Teacher_info.id}}/myProfile" class="nav-link">Profile</a>
-              </li>
             {{else}}
-              <li class="nav-item ">
-                <a href="/users/{{user.id}}" class="nav-link">Profile</a>
-              </li>
-              <li class="nav-item ">
-                <a href="/teachers/apply" class="nav-link">成為老師</a>
-              </li>
+                <li class="nav-item d-inline-flex align-items-center">
+                  <span class="text-white nav-link">Hi, {{ user.name }}</span>
+                </li>
+              {{#if user.Teacher_info}}
+                <li class="nav-item ">
+                  <a href="/teachers/{{user.Teacher_info.id}}/myProfile" class="nav-link">Profile</a>
+                </li>
+              {{else}}
+                <li class="nav-item ">
+                  <a href="/users/{{user.id}}" class="nav-link">Profile</a>
+                </li>
+                <li class="nav-item ">
+                  <a href="/teachers/apply" class="nav-link">成為老師</a>
+                </li>
+              {{/if}}
             {{/if}}
               <li class="nav-item">
                 <a href="/logout"><button class="btn btn-warning my-sm-0 my-2">Logout</button></a>
