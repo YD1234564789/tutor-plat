@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-9">
+  <div class="col-md-8">
 
     <div class="row mt-3 ">
       {{#each teachers}}
@@ -57,21 +57,30 @@
     </div>
   </div>
 
-  <div class="col-md-3">
-    <h2><spa class="badge rounded-pill bg-success">學習時數排行</span></h2>
-    <div class="card text-dark bg-light mb-3" style="width: 18rem;">
-      <ul class="list-group list-group-flush">
-
-        <li class="list-group-item">
-          <span>名次</span>
-          <img class="img img-thumbnail square-image" src="{{this.avatar}}"
-          style="height: 70px; width: 70px; object-fit: cover; border: none; border-radius: 50%">
-          <span>name</span>
-          <span>time</span>
-        </li>
-
-      </ul>
-    </div>
+  {{!-- Ranking --}}
+  <div class="col-md-4 text-center">
+    <p class="badge rounded-pill bg-success" style="font-size:large">學習時數總排行</p>
+    <table class="table align-middle">
+      <tbody>
+        {{#each topLearnUsers}}
+        <tr class="table-light">
+          <td>
+            <div class="d-flex align-items-center">
+              <i class="fas fa-trophy" style="color: #e6ea1a;"></i>
+              <span class="m-1"><strong>{{this.rank}}</strong></span>
+            </div>
+          </td>
+          <td>
+            <div class="topLearners-list-avatar">
+              <img class="avatar" src="{{this.User.avatar}}" style="height: 66px; width: 66px; object-fit: cover; border: none; border-radius: 50%" alt="avatar" title="avatar">
+            </div>
+          </td>
+          <td>{{this.User.name}}</td>
+          <td><span class="badge rounded-pill bg-success">{{this.totalDuration}} 小時</span></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
   </div>
 
 </div>

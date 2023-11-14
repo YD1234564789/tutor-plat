@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     rate: DataTypes.FLOAT,
     isDone: DataTypes.BOOLEAN,
     message: DataTypes.TEXT,
-    duration: DateTypes.FLOAT
+    duration: DataTypes.FLOAT
   }, {
     underscored: true,
   });
