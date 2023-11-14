@@ -204,22 +204,23 @@ const teacherController = {
           const book = course.date + "-" + course.startTime
           bookedCourses.push(book)
         })
-
+        // loop兩周中有空的時間
         for (let i = 0; i< 14; i++) {
           const date = today.add(i, "day")
           const dateFormat = date.format("YYYY-MM-DD")
-          // 判斷weekDay陣列中有無包括date的星期沒有則date+1
+          // 判斷weekDay陣列中有無包括date的星期 沒有則date+1
           if (weekDay.includes(date.get("day"))) {
             for (let j = 0; j< solts; j++) {
               const start = sTime.add(j * duration, "minute")
               const startTime = start.format("HH:mm:ss")
               const endTime = start.add(duration, "minute").format("HH:mm")
-              // 判斷*目前*時間是否再已預約清單 否則push
+              // 判斷*目前*時間是否在已預約清單 否則push
               if (!bookedCourses.includes(`${dateFormat}-${startTime}`)) {
                 schedule.push({
                   date: dateFormat,
                   startTime: removeSeconds(startTime),
-                  endTime
+                  endTime,
+                  duration
                 })
               }
             }
@@ -286,6 +287,7 @@ const teacherController = {
     const date = dayjs(formatDate[0], "YYYY-MM-DD")
     const startTime = dayjs(formatDate[1], "HH:mm")
     const endTime = dayjs(formatDate[2], "HH:mm")
+    const duration = Number(formatDate[3])
     const user = req.user
 
     if (!dayjs(date).isValid()) throw new Error('請選擇日期！')
@@ -301,6 +303,7 @@ const teacherController = {
           date: date.format("YYYY-MM-DD"),
           isDone: 0,
           userId: user.id,
+          duration,
           teacherInfoId: teacher.id
         })
       })

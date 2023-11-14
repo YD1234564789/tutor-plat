@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-7 ">
         <img class="rounded mx-auto d-block" src="{{teacher.User.avatar}}"
-          style="height: 300px; margin-top: 20px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
+          style="max-height: 100%; max-width: 100%; margin-top: 20px; transition: opacity 0.5s; opacity:0;" onload="this.style.opacity=1;">
         <br>
       </div>
 
@@ -45,7 +45,7 @@
       <select name="bookDate" id="bookDate">
         <option>請選擇日期</option>
         {{#each schedule}}
-        <option id="selected-date" value="{{this.date}} {{this.startTime}} {{this.endTime}}">{{this.date}} {{this.startTime}} - {{this.endTime}}</option>
+        <option id="selected-date" value="{{this.date}} {{this.startTime}} {{this.endTime}} {{this.duration}}">{{this.date}} {{this.startTime}} - {{this.endTime}}</option>
         {{/each}}
       </select>
       
@@ -72,8 +72,9 @@
     </div>
   </div>
 </div>
-
-<a class="btn btn-outline-secondary mt-2" href="javascript:history.back()">Back</a>
+<div class="text-center">
+  <a class="btn btn-outline-secondary mt-2 " href="javascript:history.back()">Back</a>
+</div>
 
 <script>
  // id:"bookDate" 後端收到的選項欄位 同name

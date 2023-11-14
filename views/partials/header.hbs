@@ -1,10 +1,14 @@
 <header>
   <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary px-4">
     <div class="container-fluid">
-      {{#if user.Teacher_info}}
-        <a class="navbar-brand" href="/teachers/{{user.Teacher_info.id}}/myProfile">Tutor 平台</a>
+      {{#if user.isAdmin}}
+        <a class="navbar-brand" href="/admin">Tutor 後台</a>
       {{else}}
-        <a class="navbar-brand" href="/home">Tutor 平台</a>
+        {{#if user.Teacher_info}}
+          <a class="navbar-brand" href="/teachers/{{user.Teacher_info.id}}/myProfile">Tutor 平台</a>
+        {{else}}
+          <a class="navbar-brand" href="/home">Tutor 平台</a>
+        {{/if}}
       {{/if}}
       {{#if user}}
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
@@ -15,9 +19,6 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav ms-auto mb-2 mb-md-0">
             {{#if user.isAdmin}}
-              <li class="nav-item">
-                <a href="/admin" class="nav-link">Admin 後台</a>
-              </li>
             {{else}}
                 <li class="nav-item d-inline-flex align-items-center">
                   <span class="text-white nav-link">Hi, {{ user.name }}</span>

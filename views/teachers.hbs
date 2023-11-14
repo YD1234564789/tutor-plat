@@ -22,7 +22,6 @@
             <img class="card-img-top img-fluid" src="{{this.User.avatar}}" alt="Card image cap" width="286px" height="180px"
               style="transition: opacity 0.5s; opacity:0;" "height: 200px;" onload="this.style.opacity=1;">
           </a>
-
           <div class="card-body">
             <span class="fi fi-{{this.User.country}}"></span>
             <span class="card-text">
@@ -32,7 +31,6 @@
             </span>
             <p class="card-text text-truncate mt-2">{{this.User.description}}</p>
           </div>
-          
         </div>
       </div>
       {{/each}}
@@ -41,7 +39,6 @@
     <div class="col-md-2 mx-auto">
       <nav class="mt-2" aria-label="page navigation">
         <ul class="pagination d-flex justify-content-center">
-
           <li class="page-item {{#ifCond pagination.currentPage 1}}disabled{{/ifCond}}">
             <a class="page-link" href="/teachers?page={{pagination.prev}}" aria-label="Previous">
               <span aria-hidden="true">&laquo;</span>
@@ -63,7 +60,6 @@
               <span aria-hidden="true">&raquo;</span>
             </a>
           </li>
-
         </ul>
       </nav>
     </div>
@@ -94,5 +90,4 @@
       </tbody>
     </table>
   </div>
-
 </div>
