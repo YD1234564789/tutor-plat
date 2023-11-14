@@ -219,6 +219,7 @@ const teacherController = {
                 schedule.push({
                   date: dateFormat,
                   startTime: removeSeconds(startTime),
+                  weekDay: dayjs(date).format('ddd'),
                   endTime,
                   duration
                 })
