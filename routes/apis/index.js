@@ -3,7 +3,7 @@ const router = express.Router()
 // const admin = require('./modules/admin')
 const auth = require('../pages/modules/auth')
 const passport = require('../../config/passport')
-const { generalErrorHandler } = require('../../middleware/error-handler')
+const { apiErrorHandler } = require('../../middleware/error-handler')
 // const { authenticated, authenticatedTeacher } = require('../../middleware/auth')
 const upload = require('../../middleware/multer')
 const userController = require('../../controllers/apis/userController')
@@ -38,6 +38,6 @@ router.get('/home', homeController.getHome)
 
 //都不符合路由時重新導向...
 router.use('/', (req, res) => res.redirect('/home'))
-router.use('/', generalErrorHandler)
+router.use('/', apiErrorHandler)
 
 module.exports = router
