@@ -1,11 +1,11 @@
-const { User } = require('../models')
-const { getOffset, getPagination } = require('../helpers/pagination-helper')
+const { User } = require('../../models')
+const { getOffset, getPagination } = require('../../helpers/pagination-helper')
 
 const adminController = {
-  signInPage: (req, res, next) => {
+  signInPage: (req, res) => {
     res.render('admin/signin')
   },
-  signIn: (req, res, next) => {
+  signIn: (req, res) => {
     req.flash('success_messages', 'Admin成功登入!')
     return res.redirect('/admin/users')
   },

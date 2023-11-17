@@ -1,9 +1,9 @@
 const bcrypt = require('bcryptjs')
-const { imgurFileHandler } = require('../helpers/file-helper')
-const { User, Course, Teacher_info } = require('../models')
+const { imgurFileHandler } = require('../../helpers/file-helper')
+const { User, Course, Teacher_info } = require('../../models')
 
 const userController = {
-  signInPage: (req, res) =>{
+  signInPage: (req, res) => {
     res.render('signin')
   },
   signIn: (req, res) => {
@@ -15,9 +15,9 @@ const userController = {
   },
   signUp: (req, res, next) => {
     if (req.body.password !== req.body.passwordCheck) throw new Error('Password do not match!')
-    User.findOne({ where: { email: req.body.email }})
+    User.findOne({ where: { email: req.body.email } })
       .then(user => {
-        if(user) throw new Error('Email already exists')
+        if (user) throw new Error('Email already exists')
         return bcrypt.hash(req.body.password, 10)
       })
       .then(hash => User.create({
@@ -33,7 +33,7 @@ const userController = {
   },
   logout: (req, res) => {
     req.logout(err => {
-      if (err) { return next(err)}
+      if (err) { return next(err) }
       req.flash('success_messages', '登出成功!')
       res.redirect('/signIn')
     })
@@ -70,7 +70,7 @@ const userController = {
     ])
       .then(([user, newCourses, history]) => {
         // console.log('history', JSON.stringify(history, null, 2))
-        if (!user) {throw new Error("User didn't exist~")}
+        if (!user) { throw new Error("User didn't exist~") }
         return res.render('users/profile', { user, newCourses, history })
       })
       .catch(err => next(err))
