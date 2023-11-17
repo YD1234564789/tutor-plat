@@ -8,74 +8,13 @@ const customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
 const teacherServices = require('../../services/teacher-services')
 
+// teacherServices.getTeachers(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
 const teacherController = {
   getTeachers: (req, res, next) => {
     teacherServices.getTeachers(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
   teacherSearch: (req, res, next) => {
-  const keyword = req.query.keyword.trim()
-  const DEFAULT_LIMIT = 6
-  const page = Number(req.query.page) || 1
-  const limit = Number(req.query.limit) || DEFAULT_LIMIT
-  const offset = getOffset(limit, page)
-  return Promise.all([
-    // TOP10 learnTime user
-    Course.findAll({
-      where: { isDone: true },
-      attributes: ['userId', [sequelize.fn('SUM', sequelize.col('duration')), 'totalDuration']],
-      group: ['userId'],
-      order: [[sequelize.fn('SUM', sequelize.col('duration')), 'DESC']],
-      limit: 10,
-      include: [{
-        model: User,
-        attributes: ['name', 'avatar']
-      }],
-      raw: true,
-      nest: true
-    }),
-    // pagination and search
-    Teacher_info.findAndCountAll({
-      include: [{
-        model: User,
-        attributes: ['id', 'name', 'avatar', 'country', 'description']
-      }],
-      where: {
-        [Op.or]: [
-          sequelize.where(
-            sequelize.fn('LOWER', sequelize.col('User.name')), 'LIKE', `%${keyword.toLowerCase()}%`
-          ),
-          sequelize.where(
-            sequelize.fn('LOWER', sequelize.col('User.country')), 'LIKE', `%${keyword.toLowerCase()}%`
-          )
-        ]
-      },
-      limit,
-      offset,
-      nest: true,
-      raw: true,
-    })
-  ])
-    .then(([topLearnUsers, teachers]) => {
-      if (teachers.rows.length === 0) {
-        req.flash('error_messages', `沒有符合"${keyword}"的結果`)
-        return res.redirect('back')
-      }
-      const data = topLearnUsers.map((u, index) => {
-        const learnHour = Number(u.totalDuration) / 60
-        return {
-          ...u,
-          totalDuration: learnHour,
-          rank: index + 1
-        }
-      })
-      return res.render('teachers', {
-        teachers: teachers.rows,
-        keyword,
-        pagination: getPagination(limit, page, teachers.count),
-        topLearnUsers: data
-      })
-    })
-    .catch(err => next(err))
+    teacherServices.teacherSearch(req, res, (err, data) => err ? res.json({ status: 'error', message: '搜尋無結果' }) : res.json({ status: 'success', data }))
   },
   getNewTeacher: (req, res, next) => {
     const WEEK = { 1: "星期一", 2: "星期二", 3: "星期三", 4: "星期四", 5: "星期五", 6: "星期六", 7: "星期日" }

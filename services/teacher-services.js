@@ -51,7 +51,66 @@ const teacherServices = {
         })
       })
       .catch(err => cb(err))
-  }
+  },
+  teacherSearch: (req, cb) => {
+    const keyword = req.query.keyword.trim()
+    const DEFAULT_LIMIT = 6
+    const page = Number(req.query.page) || 1
+    const limit = Number(req.query.limit) || DEFAULT_LIMIT
+    const offset = getOffset(limit, page)
+    return Promise.all([
+      // TOP10 learnTime user
+      Course.findAll({
+        where: { isDone: true },
+        attributes: ['userId', [sequelize.fn('SUM', sequelize.col('duration')), 'totalDuration']],
+        group: ['userId'],
+        order: [[sequelize.fn('SUM', sequelize.col('duration')), 'DESC']],
+        limit: 10,
+        include: [{
+          model: User,
+          attributes: ['name', 'avatar']
+        }],
+        raw: true,
+        nest: true
+      }),
+      // pagination and search
+      Teacher_info.findAndCountAll({
+        include: [{
+          model: User,
+          attributes: ['id', 'name', 'avatar', 'country', 'description']
+        }],
+        where: {
+          [Op.or]: [
+            sequelize.where(
+              sequelize.fn('LOWER', sequelize.col('User.name')), 'LIKE', `%${keyword.toLowerCase()}%`
+            ),
+            sequelize.where(
+              sequelize.fn('LOWER', sequelize.col('User.country')), 'LIKE', `%${keyword.toLowerCase()}%`
+            )
+          ]
+        },
+        limit,
+        offset,
+        nest: true,
+        raw: true,
+      })
+    ])
+      .then(([topLearnUsers, teachers]) => {
+        if (teachers.rows.length === 0) throw new Error
+        const data = topLearnUsers.map(u => ({
+          ...u,
+          totalDuration: Number(u.totalDuration) / 60,
+          rank: topLearnUsers.indexOf(u) + 1
+        }))
+        return cb(null, {
+          teachers: teachers.rows,
+          keyword,
+          pagination: getPagination(limit, page, teachers.count),
+          topLearnUsers: data
+        })
+      })
+      .catch(err => cb(err))
+  },
 }
 
 module.exports = teacherServices
