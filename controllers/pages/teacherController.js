@@ -6,51 +6,11 @@ const { Op } = require('sequelize')
 const dayjs = require('dayjs')
 const customParseFormat = require('dayjs/plugin/customParseFormat')
 dayjs.extend(customParseFormat)
+const teacherServices = require('../../services/teacher-services')
 
 const teacherController = {
   getTeachers: (req, res, next) => {
-    const DEFAULT_LIMIT = 6
-    const page = Number(req.query.page) || 1
-    const limit = Number(req.query.limit) || DEFAULT_LIMIT
-    const offset = getOffset(limit, page)
-    return Promise.all([
-      Course.findAll({
-        where: { isDone: true },
-        attributes: ['userId', [sequelize.fn('SUM', sequelize.col('duration')), 'totalDuration']],
-        group: ['userId'],
-        order: [[sequelize.fn('SUM', sequelize.col('duration')), 'DESC']],
-        limit: 10,
-        include: [{
-          model: User,
-          attributes: ['name', 'avatar']
-        }],
-        raw: true,
-        nest: true
-      }),
-      Teacher_info.findAndCountAll({
-        include: User,
-        limit,
-        offset,
-        nest: true,
-        raw: true,
-      })
-    ])
-      .then(([topLearnUsers, teachers]) => {
-        const data = topLearnUsers.map((u, index) => {
-          const learnHour = Number(u.totalDuration) / 60
-          return {
-            ...u,
-            totalDuration: learnHour,
-            rank: index + 1
-          }
-        })
-        return res.render('teachers', {
-          teachers: teachers.rows,
-          pagination: getPagination(limit, page, teachers.count),
-          topLearnUsers: data
-        })
-      })
-      .catch(err => next(err))
+    teacherServices.getTeachers(req, (err, data) => err ? next(err) : res.render('teachers', data))
   },
   teacherSearch: (req, res, next) => {
     const keyword = req.query.keyword.trim()
