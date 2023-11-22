@@ -2,12 +2,14 @@ const { ensureAuthenticated, getUser } = require('../helpers/auth-helpers')
 
 // 一般用戶與老師通過
 const authenticated = (req, res, next) => {
-  if (ensureAuthenticated(req))
-    if (getUser(req).isAdmin) {
+  if (ensureAuthenticated(req) && getUser(req).isAdmin) {
       req.flash('error_messages', 'Admin帳戶請到專門頁面！')
       res.redirect('/admin/signIn')
+  } else if (ensureAuthenticated(req)) {
+      return next()
     }
-    next()
+  req.flash('error_messages', '請先登入！')
+  res.redirect('/signIn')
 }
 // 老師身分通過，否則到一般用戶首頁
 const authenticatedTeacher = (req, res, next) => {

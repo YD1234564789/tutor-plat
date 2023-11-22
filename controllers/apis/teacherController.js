@@ -23,37 +23,7 @@ const teacherController = {
     teacherServices.postTeacher(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
   myProfile: (req, res, next) => {
-    return Promise.all([
-      Teacher_info.findByPk(req.params.id, {
-        include: User,
-        nest: true,
-        raw: true,
-      }),
-      Course.findAll({
-        where: {
-          teacherInfoId: req.params.id
-        },
-        order: [["date", 'DESC']],
-        raw: true
-      })
-    ])
-      .then(([teacher, courses]) => {
-        if (!teacher) throw new Error("Teacher diidn't exist!")
-        // 將整理後時間傳到樣板
-        const data = courses.map(c => {
-          const sTime = removeSeconds(c.startTime)
-          const eTime = removeSeconds(c.endTime)
-          const date = c.date
-          return {
-            ...c,
-            startTime: sTime,
-            endTime: eTime,
-            date
-          }
-        })
-        return res.render('teachers/myProfile', { teacher, courses: data })
-      })
-      .catch(err => next(err))
+    teacherServices.myProfile(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
   getTeacher: (req, res, next) => {
     return Promise.all([

@@ -20,27 +20,7 @@ const teacherController = {
     teacherServices.getNewTeacher(req, (err, data) => err ? next(err) : res.render('teachers/apply', data))
   },
   postTeacher: (req, res, next) => {
-    const { method, classLink, weekDay } = req.body
-    const startTime = dayjs(req.body.startTime, "HH:mm:ss")
-    const endTime = dayjs(req.body.endTime, "HH:mm:ss")
-    const duration = dayjs(req.body.duration, "HH:mm:ss")
-    const timeDifference = endTime.diff(startTime, 'minute') - duration.diff(dayjs("00:00:00", "HH:mm:ss"), "minute")
-    if (timeDifference < 0) throw new Error('開始時間、結束時間與課程時間設定有誤')
-    if (!method || !classLink || !weekDay || !startTime || !endTime || !duration) throw new Error('All infomation needed！')
-    return Teacher_info.create({
-      method,
-      classLink,
-      weekDay: JSON.stringify(weekDay),
-      startTime: startTime.format("HH:mm"),
-      endTime: endTime.format("HH:mm"),
-      duration: duration.format("HH:mm"),
-      userId: req.user.id
-    })
-      .then(user => {
-        req.flash('success_messages', '恭喜成為老師!')
-        res.redirect(`/teachers/${user.id}/myProfile`)
-      })
-      .catch(err => next(err))
+    teacherServices.postTeacher(req, (err, data) => err ? next(err) : res.redirect(`/teachers/${data.id}/myProfile`))
   },
   myProfile: (req, res, next) => {
     return Promise.all([

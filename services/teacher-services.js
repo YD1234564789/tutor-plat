@@ -134,8 +134,42 @@ const teacherServices = {
       duration: duration.format("HH:mm"),
       userId: req.user.id
     })
-      .then(user => {
-        return user
+      .then(teacher => {
+        req.flash('success_messages', '恭喜成為老師!')
+        return cb(null, teacher)
+      })
+      .catch(err => cb(err))
+  },
+  myProfile: (req, cb) => {
+    return Promise.all([
+      Teacher_info.findByPk(req.params.id, {
+        include: User,
+        nest: true,
+        raw: true,
+      }),
+      Course.findAll({
+        where: {
+          teacherInfoId: req.params.id
+        },
+        order: [["date", 'DESC']],
+        raw: true
+      })
+    ])
+      .then(([teacher, courses]) => {
+        if (!teacher) throw new Error("Teacher didn't exist!")
+        // 將整理後時間傳到樣板
+        const data = courses.map(c => {
+          const sTime = removeSeconds(c.startTime)
+          const eTime = removeSeconds(c.endTime)
+          const date = c.date
+          return {
+            ...c,
+            startTime: sTime,
+            endTime: eTime,
+            date
+          }
+        })
+        return cb(null, { teacher, courses: data })
       })
       .catch(err => cb(err))
   },

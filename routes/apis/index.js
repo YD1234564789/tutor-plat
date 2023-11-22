@@ -15,7 +15,6 @@ router.use('/auth', auth)
 
 router.post('/signup', userController.signUp)
 router.post('/signIn', passport.authenticate('local', { session: false }), userController.signIn)
-router.get('/logout', userController.logout)
 
 router.get('/users/:id/edit', userController.getEdit)
 router.get('/users/:id', userController.getUser)

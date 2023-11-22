@@ -38,13 +38,6 @@ const userController = {
       })
       .catch(err => next(err))
   },
-  logout: (req, res) => {
-    req.logout(err => {
-      if (err) { return next(err) }
-      req.flash('success_messages', '登出成功!')
-      res.redirect('/signIn')
-    })
-  },
   getUser: (req, res, next) => {
     return Promise.all([
       User.findByPk(req.params.id, {
