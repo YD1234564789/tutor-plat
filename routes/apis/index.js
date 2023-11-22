@@ -4,13 +4,13 @@ const router = express.Router()
 const auth = require('../pages/modules/auth')
 const passport = require('../../config/passport')
 const { apiErrorHandler } = require('../../middleware/error-handler')
-// const { authenticated, authenticatedTeacher } = require('../../middleware/auth')
+const { authenticated, authenticatedAdmin } = require('../../middleware/api-auth')
 const upload = require('../../middleware/multer')
 const userController = require('../../controllers/apis/userController')
 const teacherController = require('../../controllers/apis/teacherController')
 const homeController = require('../../controllers/apis/homeController')
 
-// router.use('/admin', admin)
+// router.use('/admin', authenticated, authenticatedAdmin, admin)
 router.use('/auth', auth)
 
 router.post('/signup', userController.signUp)
@@ -22,17 +22,17 @@ router.get('/users/:id', userController.getUser)
 // 設定上傳單張圖片avatar對應input name
 router.put('/users/:id', upload.single('avatar'), userController.putUser)
 
-router.get('/teachers/apply', teacherController.getNewTeacher)
-router.post('/teachers/apply', teacherController.postTeacher)
-router.get('/teachers/search', teacherController.teacherSearch)
-router.put('/teachers/:id/score', teacherController.putScore)
-router.post('/teachers/:id/reserve', teacherController.postReserve)
-router.get('/teachers/:id/myProfile', teacherController.myProfile) //老師看自己檔案
-router.get('/teachers/:id/edit', teacherController.editPage)
-router.get('/teachers/:id', teacherController.getTeacher) // 學生看老師
-router.put('/teachers/:id', upload.single('avatar'), teacherController.putTeacher)
-router.get('/teachers', teacherController.getTeachers)
-router.get('/home', homeController.getHome)
+router.get('/teachers/apply', authenticated, teacherController.getNewTeacher)
+router.post('/teachers/apply', authenticated, teacherController.postTeacher)
+router.get('/teachers/search', authenticated, teacherController.teacherSearch)
+router.put('/teachers/:id/score', authenticated, teacherController.putScore)
+router.post('/teachers/:id/reserve', authenticated, teacherController.postReserve)
+router.get('/teachers/:id/myProfile', authenticated, teacherController.myProfile) //老師看自己檔案
+router.get('/teachers/:id/edit', authenticated, teacherController.editPage)
+router.get('/teachers/:id', authenticated, teacherController.getTeacher) // 學生看老師
+router.put('/teachers/:id', authenticated, upload.single('avatar'), teacherController.putTeacher)
+router.get('/teachers', authenticated, teacherController.getTeachers)
+router.get('/home', authenticated, homeController.getHome)
 
 //都不符合路由時重新導向...
 router.use('/', (req, res) => res.redirect('/home'))
