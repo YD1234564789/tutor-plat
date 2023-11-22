@@ -14,34 +14,13 @@ const teacherController = {
     teacherServices.getTeachers(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
   teacherSearch: (req, res, next) => {
-    teacherServices.teacherSearch(req, res, (err, data) => err ? res.json({ status: 'error', message: '搜尋無結果' }) : res.json({ status: 'success', data }))
+    teacherServices.teacherSearch(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
   getNewTeacher: (req, res, next) => {
-    const WEEK = { 1: "星期一", 2: "星期二", 3: "星期三", 4: "星期四", 5: "星期五", 6: "星期六", 7: "星期日" }
-    res.render('teachers/apply', { WEEK })
+    teacherServices.getNewTeacher(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
   postTeacher: (req, res, next) => {
-    const { method, classLink, weekDay } = req.body
-    const startTime = dayjs(req.body.startTime, "HH:mm:ss")
-    const endTime = dayjs(req.body.endTime, "HH:mm:ss")
-    const duration = dayjs(req.body.duration, "HH:mm:ss")
-    const timeDifference = endTime.diff(startTime, 'minute') - duration.diff(dayjs("00:00:00", "HH:mm:ss"), "minute")
-    if (timeDifference < 0) throw new Error('開始時間、結束時間與課程時間設定有誤')
-    if (!method || !classLink || !weekDay || !startTime || !endTime || !duration) throw new Error('All infomation needed！')
-    return Teacher_info.create({
-      method,
-      classLink,
-      weekDay: JSON.stringify(weekDay),
-      startTime: startTime.format("HH:mm"),
-      endTime: endTime.format("HH:mm"),
-      duration: duration.format("HH:mm"),
-      userId: req.user.id
-    })
-      .then(user => {
-        req.flash('success_messages', '恭喜成為老師!')
-        res.redirect(`/teachers/${user.id}/myProfile`)
-      })
-      .catch(err => next(err))
+    teacherServices.postTeacher(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
   myProfile: (req, res, next) => {
     return Promise.all([

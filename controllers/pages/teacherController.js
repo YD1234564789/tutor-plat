@@ -14,17 +14,10 @@ const teacherController = {
     teacherServices.getTeachers(req, (err, data) => err ? next(err) : res.render('teachers', data))
   },
   teacherSearch: (req, res, next) => {
-    teacherServices.teacherSearch(req, res, (err, data) => {
-      if (err) {
-        req.flash('error_messages', '沒有搜尋結果')
-        return res.redirect('back')
-      } 
-      res.render('teachers', data)
-    })
+    teacherServices.teacherSearch(req, (err, data) => err ? next(err) : res.render('teachers', data))
   },
   getNewTeacher: (req, res, next) => {
-    const WEEK = { 1: "星期一", 2: "星期二", 3: "星期三", 4: "星期四", 5: "星期五", 6: "星期六", 7: "星期日" }
-    res.render('teachers/apply', { WEEK })
+    teacherServices.getNewTeacher(req, (err, data) => err ? next(err) : res.render('teachers/apply', data))
   },
   postTeacher: (req, res, next) => {
     const { method, classLink, weekDay } = req.body
