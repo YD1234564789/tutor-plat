@@ -13,10 +13,8 @@ const homeController = require('../../controllers/apis/homeController')
 // router.use('/admin', admin)
 router.use('/auth', auth)
 
-router.get('/signup', userController.signUpPage)
 router.post('/signup', userController.signUp)
-router.get('/signIn', userController.signInPage)
-router.post('/signIn', passport.authenticate('local', { failureRedirect: '/signIn', failureFlash: true }), userController.signIn)
+router.post('/signIn', passport.authenticate('local', { session: false }), userController.signIn)
 router.get('/logout', userController.logout)
 
 router.get('/users/:id/edit', userController.getEdit)

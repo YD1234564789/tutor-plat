@@ -1,17 +1,24 @@
+const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const { imgurFileHandler } = require('../../helpers/file-helper')
 const { User, Course, Teacher_info } = require('../../models')
 
 const userController = {
-  signInPage: (req, res) => {
-    res.render('signin')
-  },
-  signIn: (req, res) => {
-    req.flash('success_messages', '成功登入!!')
-    res.redirect('/home')
-  },
-  signUpPage: (req, res) => {
-    res.render('signup')
+  signIn: (req, res, next) => {
+    try {
+      const userData = req.user.toJSON()
+      delete userData.password
+      const token = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: '30d' })
+      res.json({
+        status: 'success',
+        data: {
+          token,
+          user: userData
+        }
+      })
+    } catch (error) {
+      next(err)
+    }
   },
   signUp: (req, res, next) => {
     if (req.body.password !== req.body.passwordCheck) throw new Error('Password do not match!')
