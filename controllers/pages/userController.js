@@ -1,6 +1,3 @@
-const bcrypt = require('bcryptjs')
-const { imgurFileHandler } = require('../../helpers/file-helper')
-const { User, Course, Teacher_info } = require('../../models')
 const userServices = require('../../services/user-services')
 
 // userServices.getTeachers(req, (err, data) => err ? next(err) : res.render('teachers', data))

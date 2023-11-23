@@ -1,41 +1,29 @@
-const { User } = require('../../models')
-const { getOffset, getPagination } = require('../../helpers/pagination-helper')
+const jwt = require('jsonwebtoken')
+const adminServices = require('../../services/admin-services')
 
+// adminServices.signUp(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
 const adminController = {
-  signInPage: (req, res) => {
-    res.render('admin/signin')
-  },
-  signIn: (req, res) => {
-    req.flash('success_messages', 'Admin成功登入!')
-    return res.redirect('/admin/users')
+  signIn: (req, res, next) => {
+    try {
+      const userData = req.user.toJSON()
+      delete userData.password
+      const token = jwt.sign(userData, process.env.JWT_SECRET, { expiresIn: '30d' })
+      res.json({
+        status: 'success',
+        data: {
+          token,
+          user: userData
+        }
+      })
+    } catch (error) {
+      next(err)
+    }
   },
   getUsers: (req, res, next) => {
-    const DEFAULT_LIMIT = 15
-    const page = Number(req.query.page) || 1
-    const limit = Number(req.query.limit) || DEFAULT_LIMIT
-    const offset = getOffset(limit, page)
-    return User.findAndCountAll({
-      raw: true,
-      limit,
-      offset
-    })
-      .then(users => {
-        return res.render('admin/users', {
-          users: users.rows,
-          pagination: getPagination(limit, page, users.count)
-        })
-      })
-      .catch(err => next(err))
+    adminServices.getUsers(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
   getUser: (req, res, next) => {
-    User.findByPk(req.params.id, {
-      raw: true
-    })
-      .then(user => {
-        if (!user) throw new Error("User didn't exist!")
-        res.render('admin/user', { user })
-      })
-      .catch(err => next(err))
+    adminServices.getUser(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   }
 }
 

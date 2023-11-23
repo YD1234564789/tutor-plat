@@ -1,10 +1,6 @@
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
-const { imgurFileHandler } = require('../../helpers/file-helper')
-const { User, Course, Teacher_info } = require('../../models')
 const userServices = require('../../services/user-services')
 
-// userServices.getTeachers(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
 const userController = {
   signIn: (req, res, next) => {
     try {
