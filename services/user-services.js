@@ -5,16 +5,17 @@ const { User, Course, Teacher_info } = require('../models')
 
 const userServices = {
   signUp: (req, cb) => {
-    if (req.body.password !== req.body.passwordCheck) throw new Error('Password do not match!')
-    User.findOne({ where: { email: req.body.email } })
+    const { name, email, password, passwordCheck } = req.body
+    if (password !== passwordCheck) throw new Error('Password do not match!')
+    return User.findOne({ where: { email }})
       .then(user => {
         if (user) throw new Error('Email already exists')
-        return bcrypt.hash(req.body.password, 10)
+        return bcrypt.hash(password, 10)
       })
       .then(hash => {
         return User.create({
-          name: req.body.name,
-          email: req.body.email,
+          name: name,
+          email: email,
           password: hash
         })
       })
