@@ -32,27 +32,7 @@ const userController = {
     userServices.getEdit(req, (err, data) => err ? next(err) : res.render('users/edit', data))
   },
   putUser: (req, res, next) => {
-    const { name, country, description } = req.body
-    if (!name) throw new Error('User name is required!')
-    const { file } = req
-    Promise.all([
-      User.findByPk(req.params.id),
-      imgurFileHandler(file)
-    ])
-      .then(([user, filePath]) => {
-        if (!user) throw new Error("User didn't exist!")
-        return user.update({
-          name,
-          country: country.toLowerCase(),
-          description,
-          avatar: filePath || user.avatar
-        })
-      })
-      .then(() => {
-        req.flash('success_messages', '使用者資料編輯成功')
-        res.redirect(`/users/${req.params.id}`)
-      })
-      .catch(err => next(err))
+    userServices.putUser(req, (err, data) => err ? next(err) : res.redirect(`/users/${data.userId}`))
   }
 }
 

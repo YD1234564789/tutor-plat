@@ -71,6 +71,30 @@ const userServices = {
       })
       .catch(err => cb(err))
   },
+  putUser: (req, cb) => {
+    const userId = req.params.id
+    const { name, country, description } = req.body
+    if (!name) throw new Error('User name is required!')
+    const { file } = req
+    Promise.all([
+      User.findByPk(userId),
+      imgurFileHandler(file)
+    ])
+      .then(([user, filePath]) => {
+        if (!user) throw new Error("User didn't exist!")
+        return user.update({
+          name,
+          country: country.toLowerCase(),
+          description,
+          avatar: filePath || user.avatar
+        })
+      })
+      .then(data => {
+        req.flash('success_messages', '使用者資料編輯成功')
+        return cb(null, { data, userId })
+      })
+      .catch(err => cb(err))
+  }
 }
 
 module.exports = userServices
