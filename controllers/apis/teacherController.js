@@ -1,6 +1,5 @@
 const teacherServices = require('../../services/teacher-services')
 
-// teacherServices.getTeachers(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
 const teacherController = {
   getTeachers: (req, res, next) => {
     teacherServices.getTeachers(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
