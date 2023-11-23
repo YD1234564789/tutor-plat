@@ -26,70 +26,10 @@ const teacherController = {
     teacherServices.myProfile(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
   getTeacher: (req, res, next) => {
-    return Promise.all([
-      Teacher_info.findByPk(req.params.id, {
-        include: User,
-        nest: true,
-        raw: true,
-      }),
-      Course.findAll({
-        where: {
-          teacherInfoId: req.params.id
-        },
-        raw: true,
-      })
-    ])
-      .then(([teacher, courses]) => {
-        if (!teacher) throw new Error("Teacher didn't exist!")
-        // 因要計算先用dayjs轉物件，最後存入值要format過
-        const sTime = dayjs(teacher.startTime, "HH:mm:ss")
-        const eTime = dayjs(teacher.endTime, "HH:mm:ss")
-        const duration = toMinutes(teacher.duration)
-        const weekDay = teacher.weekDay
-        const solts = eTime.diff(sTime, "minute") / duration
-        const schedule = []
-        const today = dayjs()
-        // each已預約課程，簡化後push到新陣列
-        const bookedCourses = []
-        courses.forEach(course => {
-          const book = course.date + "-" + course.startTime
-          bookedCourses.push(book)
-        })
-        // loop兩周中有空的時間
-        for (let i = 0; i < 14; i++) {
-          const date = today.add(i, "day")
-          const dateFormat = date.format("YYYY-MM-DD")
-          // 判斷weekDay陣列中有無包括date的星期 沒有則date+1
-          if (weekDay.includes(date.get("day"))) {
-            for (let j = 0; j < solts; j++) {
-              const start = sTime.add(j * duration, "minute")
-              const startTime = start.format("HH:mm:ss")
-              const endTime = start.add(duration, "minute").format("HH:mm")
-              // 判斷*目前*時間是否在已預約清單 否則push
-              if (!bookedCourses.includes(`${dateFormat}-${startTime}`)) {
-                schedule.push({
-                  date: dateFormat,
-                  startTime: removeSeconds(startTime),
-                  weekDay: dayjs(date).format('ddd'),
-                  endTime,
-                  duration
-                })
-              }
-            }
-          }
-        }
-        return res.render('teachers/teacherProfile', { teacher, courses, schedule })
-      })
-      .catch(err => next(err))
+    teacherServices.getTeacher(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
   editPage: (req, res) => {
-    const data = req.user
-    data.Teacher_info.startTime = removeSeconds(data.Teacher_info.startTime)
-    data.Teacher_info.endTime = removeSeconds(data.Teacher_info.endTime)
-    data.Teacher_info.duration = toMinutes(data.Teacher_info.duration)
-    const WEEK = { 1: "星期一", 2: "星期二", 3: "星期三", 4: "星期四", 5: "星期五", 6: "星期六", 7: "星期日" }
-    // 登入的user已帶入teacher身分，沒有則null
-    res.render('teachers/edit', { user: data, WEEK })
+    teacherServices.editPage(req, (err, data) => err ? next(err) : res.json({ status: 'success', data }))
   },
   putTeacher: (req, res, next) => {
     const { file } = req
