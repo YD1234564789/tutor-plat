@@ -16,7 +16,7 @@ router.use('/auth', auth)
 router.post('/signup', userController.signUp)
 router.post('/signIn', passport.authenticate('local', { session: false }), userController.signIn)
 
-router.get('/users/:id/edit', userController.getEdit)
+router.get('/users/:id/edit', userController.getEdit)//學生編輯頁
 router.get('/users/:id', userController.getUser)
 // 設定上傳單張圖片avatar對應input name
 router.put('/users/:id', upload.single('avatar'), userController.putUser)
@@ -27,7 +27,7 @@ router.get('/teachers/search', authenticated, teacherController.teacherSearch)
 router.put('/teachers/:id/score', authenticated, teacherController.putScore)
 router.post('/teachers/:id/reserve', authenticated, teacherController.postReserve)
 router.get('/teachers/:id/myProfile', authenticated, teacherController.myProfile) //老師看自己檔案
-router.get('/teachers/:id/edit', authenticated, teacherController.editPage)
+router.get('/teachers/:id/edit', authenticated, teacherController.editPage) //老師編輯頁
 router.get('/teachers/:id', authenticated, teacherController.getTeacher) // 學生看老師
 router.put('/teachers/:id', authenticated, upload.single('avatar'), teacherController.putTeacher)
 router.get('/teachers', authenticated, teacherController.getTeachers)
