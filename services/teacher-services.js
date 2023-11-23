@@ -313,6 +313,24 @@ const teacherServices = {
       })
       .catch(err => cb(err))
   },
+  putScore: (req, cb) => {
+    const { rate, message } = req.body
+    const CourseId = req.params.id
+    const userId = req.user.id
+    if (rate > 5 || rate < 1) throw new Error('分數請在1~5之間，可小數1位')
+    return Course.findByPk(CourseId)
+      .then(course => {
+        return course.update({
+          rate: Number(rate),
+          message
+        })
+      })
+      .then(score => {
+        req.flash('success_messages', 'Score was successfully to update')
+        return cb(null, { score, userId })
+      })
+      .catch(err => cb(err))
+  }
 }
 
 module.exports = teacherServices

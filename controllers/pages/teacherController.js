@@ -1,11 +1,3 @@
-const { Teacher_info, User, Course, sequelize } = require('../../models')
-const { imgurFileHandler } = require('../../helpers/file-helper')
-const { removeSeconds, toMinutes } = require('../../helpers/formatTime-helpers')
-const { getOffset, getPagination } = require('../../helpers/pagination-helper')
-const { Op } = require('sequelize')
-const dayjs = require('dayjs')
-const customParseFormat = require('dayjs/plugin/customParseFormat')
-dayjs.extend(customParseFormat)
 const teacherServices = require('../../services/teacher-services')
 
 // teacherServices.getTeachers(req, (err, data) => err ? next(err) : res.render('teachers', data))
@@ -38,22 +30,7 @@ const teacherController = {
     teacherServices.postReserve(req, err => {if (err) next(err)})
   },
   putScore: (req, res, next) => {
-    const { rate, message } = req.body
-    const CourseId = req.params.id
-    const userId = req.user.id
-    if (rate > 5 || rate < 1) throw new Error('分數請在1~5之間，可小數1位')
-    return Course.findByPk(CourseId)
-      .then(course => {
-        return course.update({
-          rate: Number(rate),
-          message
-        })
-      })
-      .then(() => {
-        req.flash('success_messages', 'Score was successfully to update')
-        res.redirect(`/users/${userId}`)
-      })
-      .catch(err => next(err))
+    teacherServices.putScore(req, (err, data) => err ? next(err) : res.redirect(`/users/${data.userId}`))
   }
 }
 
