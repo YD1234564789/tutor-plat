@@ -38,7 +38,7 @@ app.use('/api', apis)
 app.use(pages)
 
 app.listen(port, () => {
-  console.info(`Example app listening on port ${port}!`)
+  console.info(`App is listening on port ${port}`)
 })
 
 module.exports = app //測試環境用到
